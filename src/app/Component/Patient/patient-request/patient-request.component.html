@@ -1,0 +1,334 @@
+<div id="submitrequestscreen" class="container-fluid d-flex flex-column justify-content-between min-vh-100 ">
+
+    <div class="row row-cols-1 ">
+        <app-submitrequest-header></app-submitrequest-header>
+    </div>
+
+    <div class="container mb-3 shadow-lg p-3 bg-white rounded-3 mt-3">
+
+        <!-- <div class="row "> -->
+        <!-- <div class="container"> -->
+
+        <form enctype="multipart/form-data" [formGroup]="PatientRequestForm" (submit)="PatientRequestSubmit()">
+
+            <div class="row mt-3">
+                <p class="fs-4 fw-semibold">Patient Information</p>
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-3">
+                            <div class="form-floating ">
+                                <textarea class="form-control " placeholder="" id="Symptoms" style="height: 100px"
+                                    formControlName="Symptoms"></textarea>
+                                <label class="" for="Symptoms">
+                                    <p style="white-space: wrap;">
+                                        Enter Brief Details Of
+                                        Symptoms(Optional)
+                                    </p>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="fname" placeholder=""
+                                formControlName="FirstName" [ngClass]="{
+                                'isInValid':
+                                PatientRequestForm.get('FirstName')?.invalid &&
+                                  (PatientRequestForm.get('FirstName')?.dirty ||
+                                    PatientRequestForm.get('FirstName')?.touched),
+                                'isValid':
+                                  PatientRequestForm.get('FirstName')?.valid &&
+                                  (PatientRequestForm.get('FirstName')?.dirty || PatientRequestForm.get('FirstName')?.touched)
+                              }">
+                            <label for="fname">First Name</label>
+                            <span
+                                *ngIf="PatientRequestForm.get('FirstName')?.touched && PatientRequestForm.get('FirstName')?.hasError('required')"
+                                class="errorMessage">
+                                FirstName is required.
+                            </span>
+                            <!-- <span *ngIf="PatientRequestForm.get('FirstName')?.hasError('maxLength') || PatientRequestForm.get('FirstName')?.hasError('minLength')" class="errorMessage">
+                                FirstName should between 3-10 characters.
+                            </span> -->
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="lname" placeholder="" formControlName="LastName"
+                                [ngClass]="{
+                                'isInValid':
+                                PatientRequestForm.get('LastName')?.invalid &&
+                                  (PatientRequestForm.get('LastName')?.dirty ||
+                                    PatientRequestForm.get('LastName')?.touched),
+                                'isValid':
+                                  PatientRequestForm.get('LastName')?.valid &&
+                                  (PatientRequestForm.get('LastName')?.dirty || PatientRequestForm.get('LastName')?.touched)
+                              }">
+                            <label for="lname">Last Name</label>
+                            <span
+                                *ngIf="PatientRequestForm.get('LastName')?.touched && PatientRequestForm.get('LastName')?.hasError('required')"
+                                class="errorMessage">
+                                LastName is required.
+                            </span>
+                            <!-- <span *ngIf="PatientRequestForm.get('LastName')?.touched && 
+                            ( PatientRequestForm.get('LastName')?.hasError('maxLength') || PatientRequestForm.get('LastName')?.hasError('minLength'))" 
+                            class="errorMessage">
+                                FirstName should between 3-10 characters.
+                            </span> -->
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating mb-3">
+                            <input type="date" class="form-control" id="bdate" placeholder="" formControlName="Bdate"
+                                [ngClass]="{
+                                'isInValid':
+                                PatientRequestForm.get('Bdate')?.invalid &&
+                                  (PatientRequestForm.get('Bdate')?.dirty ||
+                                    PatientRequestForm.get('Bdate')?.touched),
+                                'isValid':
+                                  PatientRequestForm.get('Bdate')?.valid &&
+                                  (PatientRequestForm.get('Bdate')?.dirty || PatientRequestForm.get('Bdate')?.touched)
+                              }">
+                            <label for="bdate">Birthdate</label>
+                            <span
+                                *ngIf="PatientRequestForm.get('Bdate')?.touched && PatientRequestForm.get('Bdate')?.hasError('required')"
+                                class="errorMessage">
+                                BirthDate is required.
+                            </span>
+                            <span *ngIf="PatientRequestForm.get('Bdate')?.hasError('futureDate')" class="errorMessage">
+                                BirthDate can't be in future.
+                            </span>
+                            <span *ngIf="PatientRequestForm.get('Bdate')?.hasError('invalidAge')" class="errorMessage">
+                                Age between 18-50 are allowed.
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+
+                <p class="fs-4 fw-semibold">Patient Contact Information</p>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control" id="email" placeholder="" formControlName="Email"
+                                [ngClass]="{
+                                'isInValid':
+                                PatientRequestForm.get('Email')?.invalid &&
+                                  (PatientRequestForm.get('Email')?.dirty ||
+                                    PatientRequestForm.get('Email')?.touched),
+                                'isValid':
+                                  PatientRequestForm.get('Email')?.valid &&
+                                  (PatientRequestForm.get('Email')?.dirty || PatientRequestForm.get('Email')?.touched)
+                              }" (blur)="ValidateEmail()">
+                            <label for="email">Email</label>
+                            <span
+                                *ngIf="PatientRequestForm.get('Email')?.touched && PatientRequestForm.get('Email')?.hasError('required')"
+                                class="errorMessage">
+                                Email is required.
+                            </span>
+                            <span *ngIf="PatientRequestForm.get('Email')?.hasError('invalidEmail')"
+                                class="errorMessage">
+                                Please Enter a Valid Email
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-floating ">
+                            <input type="tel" class="form-control" id="phone" formControlName="Mobile">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-3 mt-md-0" id="passwordFields" *ngIf="!isExistUser">
+
+                    <div class="col-md-6">
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control" id="passwordh" placeholder=""
+                                formControlName="PasswordHash" [ngClass]="{
+                                    'isInValid':
+                                    PatientRequestForm.get('PasswordHash')?.invalid &&
+                                      (PatientRequestForm.get('PasswordHash')?.dirty ||
+                                        PatientRequestForm.get('PasswordHash')?.touched),
+                                    'isValid':
+                                      PatientRequestForm.get('PasswordHash')?.valid &&
+                                      (PatientRequestForm.get('PasswordHash')?.dirty || PatientRequestForm.get('PasswordHash')?.touched)
+                                  }">
+                            <label for="Password">Password</label>
+                            <span
+                                *ngIf="PatientRequestForm.get('PasswordHash')?.touched && PatientRequestForm.get('PasswordHash')?.hasError('required')"
+                                class="errorMessage">
+                                Password is required.
+                            </span>
+                            <span *ngIf="PatientRequestForm.get('PasswordHash')?.touched && PatientRequestForm.get('PasswordHash')?.hasError('invalidPassword')"
+                                class="errorMessage">
+                                Password must be at least 8 characters long and contain at least one
+                                uppercase letter, one lowercase letter, one digit, and one special
+                                character
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control" id="cpassword" placeholder="">
+                            <label for="Cpassword"> Confirm Password</label>
+                            <span id="errorpass"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+
+                <p class="fs-4 fw-semibold">Patient Location</p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="street" placeholder="" formControlName="Street"
+                                [ngClass]="{
+                                'isInValid':
+                                PatientRequestForm.get('Street')?.invalid &&
+                                  (PatientRequestForm.get('Street')?.dirty ||
+                                    PatientRequestForm.get('Street')?.touched),
+                                'isValid':
+                                  PatientRequestForm.get('Street')?.valid &&
+                                  (PatientRequestForm.get('Street')?.dirty || PatientRequestForm.get('Street')?.touched)
+                              }">
+                            <label for="street">Street</label>
+                            <span
+                                *ngIf="PatientRequestForm.get('Street')?.touched && PatientRequestForm.get('Street')?.hasError('required')"
+                                class="errorMessage">
+                                Street is required.
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="city" placeholder="" formControlName="City"
+                                [ngClass]="{
+                                'isInValid':
+                                PatientRequestForm.get('City')?.invalid &&
+                                  (PatientRequestForm.get('City')?.dirty ||
+                                    PatientRequestForm.get('City')?.touched),
+                                'isValid':
+                                  PatientRequestForm.get('City')?.valid &&
+                                  (PatientRequestForm.get('City')?.dirty || PatientRequestForm.get('City')?.touched)
+                              }">
+                            <label for="city">City </label>
+                            <span
+                                *ngIf="PatientRequestForm.get('City')?.touched && PatientRequestForm.get('City')?.hasError('required')"
+                                class="errorMessage">
+                                City is required.
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating mb-3">
+
+                            <select class="form-select MailingBilling" id="state"
+                                aria-label="Floating label select example" formControlName="regionId" [ngClass]="{
+                                    'isInValid':
+                                    PatientRequestForm.get('regionId')?.invalid &&
+                                      (PatientRequestForm.get('regionId')?.dirty ||
+                                        PatientRequestForm.get('regionId')?.touched),
+                                    'isValid':
+                                      PatientRequestForm.get('regionId')?.valid &&
+                                      (PatientRequestForm.get('regionId')?.dirty || PatientRequestForm.get('regionId')?.touched)
+                                  }">
+                                <!-- @{
+                                                <option selected disabled value=0>Chose Region</option>
+                                            foreach (var item in Model.allRegion)
+                                            {
+                                                    <option value="@item.RegionId">@item.Name</option>
+                                            }
+                                        } -->
+                            </select>
+                            <label for="state">State</label>
+                            <span
+                                *ngIf="PatientRequestForm.get('regionId')?.touched && PatientRequestForm.get('regionId')?.hasError('required')"
+                                class="errorMessage">
+                                Region is required.
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control" id="zipcode" placeholder=""
+                                formControlName="Zipcode" [ngClass]="{
+                                'isInValid':
+                                PatientRequestForm.get('Zipcode')?.invalid &&
+                                  (PatientRequestForm.get('Zipcode')?.dirty ||
+                                    PatientRequestForm.get('Zipcode')?.touched),
+                                'isValid':
+                                  PatientRequestForm.get('Zipcode')?.valid &&
+                                  (PatientRequestForm.get('Zipcode')?.dirty || PatientRequestForm.get('Zipcode')?.touched)
+                              }">
+                            <label for="zipcode">Zip Code </label>
+                            <span
+                                *ngIf="PatientRequestForm.get('Zipcode')?.touched && PatientRequestForm.get('Zipcode')?.hasError('required')"
+                                class="errorMessage">
+                                Zipcode is required.
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="room" placeholder="" formControlName="Room">
+                            <label for="room">Room(Optional)</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+
+                <p class="fs-4 fw-semibold">(Optional) Upload Photo or Document</p>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="input-group mb-3">
+                            <span class="position-absolute" style="left: 0; top: 10px;" id="message">
+                                No item
+                                selected
+                            </span>
+                            <button class="btn btn-info text-light position-absolute rounded-3"
+                                style="right: 0; top: 5px;" type="button" id="button-addon2">
+                                <i class="bi bi-cloud-arrow-up me-1"></i>Upload
+                            </button>
+                            <input type="file" class="form-control file-select position-absolute border" id="my-file"
+                                style="width: 100%;" asp-for="File" multiple formControlName="File">
+                            <!-- @*                                 @Html.TextBoxFor(m => m.File, new{ type = "file", multiple = "multiple"})
+                                    *@ -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row mt-3 mb-3">
+                <div class="row">
+
+                    <div class="col d-flex justify-content-end mt-4">
+                        <button class="btn btn-info text-light me-3" type="submit" id="submit">
+                            Submit
+                        </button>
+                        <button class="btn btn-outline-info " type="reset" id="cancel">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <!-- </div> -->
+    <!-- </div> -->
+
+    <div class="row">
+        <app-submitrequest-footer></app-submitrequest-footer>
+    </div>
+
+</div>

@@ -1,0 +1,92 @@
+<div id="body1" class="container-fluid border d-flex flex-column justify-content-between min-vh-100 nocontain">
+
+    <div class="row row-cols-1">
+        <app-patient-login-nav></app-patient-login-nav>
+    </div>
+
+    <div class="row">
+        <div class="col d-flex justify-content-center  ">
+
+            <div class="d-flex flex-column " style="width: 400px; margin-top: 7%;">
+                <div>
+                    <a class="text-decoration-none ms-2 text-info ">
+                        <i class="fa-solid fa-less-than me-2"></i>Back
+                    </a>
+                </div>
+                <div class="logintext fw-semibold fs-4 mt-2 text-center" style="letter-spacing: 1px">
+                    Login To Your
+                    Account
+                </div>
+
+                <form class="mt-3" [formGroup]="loginForm" (submit)="loginSubmit()">
+
+                    <div class="">
+                        <div class="form-floating mb-3 inputtexticon ">
+                            <input type="email" class=" form-control pe-5" id="Email" placeholder=""
+                                formControlName="Email" [ngClass]="{
+                                    'isInValid':
+                                      loginForm.get('Email')?.invalid &&
+                                      (loginForm.get('Email')?.dirty ||
+                                        loginForm.get('Email')?.touched),
+                                    'isValid':
+                                      loginForm.get('Email')?.valid &&
+                                      (loginForm.get('Email')?.dirty || loginForm.get('Email')?.touched)
+                                  }">
+                            <label for="Email">Email</label>
+                            <i class="bi bi-person-circle position-absolute"></i>
+                        </div>
+                        <span *ngIf="loginForm.get('Email')?.touched && loginForm.get('Email')?.hasError('required')" class="errorMessage">
+                            Email is required.
+                        </span>
+                        <span *ngIf="loginForm.get('Email')?.hasError('invalidEmail')" class="errorMessage">
+                            Please enter a valid email address
+                        </span>
+                    </div>
+
+                    <div class="">
+                        <div class="form-floating mb-3 d-flex inputtexticon">
+                            <input type="password" id="passwordshow" class="form-control pe-5" placeholder=""
+                                formControlName="Password" [ngClass]="{
+                                    'isInValid':
+                                      loginForm.get('Password')?.invalid &&
+                                      (loginForm.get('Password')?.dirty ||
+                                        loginForm.get('Password')?.touched),
+                                    'isValid':
+                                      loginForm.get('Password')?.valid &&
+                                      (loginForm.get('Password')?.dirty || loginForm.get('Password')?.touched)
+                                  }">
+                            <label for="floatingInput">Password</label>
+
+                            <i class="bi bi-eye position-absolute" id="showpassword" (click)=visiblitypassword()></i>
+                            <i class="bi bi-eye-slash position-absolute" id="hidepassword"
+                                (click)=visiblitypassword()></i>
+                        </div>
+                        <span *ngIf="loginForm.get('Password')?.touched && loginForm.get('Password')?.hasError('required')" class="errorMessage">
+                            Password is required.
+                        </span>
+                        <!-- <span *ngIf="loginForm.get('Password')?.hasError('invalidPassword')" class="errorMessage">
+                            Password must be at least 8 characters long and contain at least one
+                            uppercase letter, one lowercase letter, one digit, and one special
+                            character
+                        </span> -->
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-info text-light" type="submit" [disabled]="!loginForm.valid">Log
+                            in</button>
+                    </div>
+                </form>
+
+                <div class="text-center mt-3">
+                    <a class="text-info text-decoration-none" routerLink="/patient/forgetpassword">Forgot Password?</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <app-patient-login-footer></app-patient-login-footer>
+    </div>
+
+</div>

@@ -1,0 +1,86 @@
+
+<header id="nav" style="padding:0px">
+
+    <div class="navbar navbar-light d-flex border border-bottom justify-content-between align-items-center">
+
+        <div class="d-flex ms-4 ">
+            <button class="mt-3 navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class=" navbar-toggler-icon"></span>
+            </button>
+        </div>
+
+        <div class="d-flex justify-content-center align-items-center ms-3">
+            <a class="navbar-brand" href="#">
+                <div class="col d-flex justify-content-start">
+                    <img class="HelloDoclogo" src="~/images/Fig56. Patient site 1.png" alt="">
+                </div>
+            </a>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center ">
+            <a class="navbar-brand hamburgeruser" href="#" style="margin-top: 15px;">
+                <div class="col d-flex justify-content-start darktext">
+                    Welcome 
+                </div>
+            </a>
+
+            <a class="navbar-brand" style="padding-top:0px">
+                <div class="col-auto mt-3 ">
+                    <button type="submit" class="btn btn-outline-info" (click)="Logout()">
+                        <span class="hamburger">Logout</span>
+                        <div><i class="bi bi-box-arrow-right hamburgermenu"></i></div>
+                    </button>
+                </div>
+            </a>
+
+            <a class="navbar-brand" href="#" style="padding-top:0px">
+                <div class="col-auto mt-3">
+                    <button type="submit" id="butn" class="btn btn-outline-info"
+                            onclick="submitrequestscreenf()">
+                        <i class="bi bi-moon"></i>
+                    </button>
+                </div>
+            </a>
+        </div>
+
+    </div>
+
+    <nav class="navbar border border-bottom box-shadow navbar-expand-lg bg-body-white p-0 fs-5">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse " id="navbarNav">
+
+                <ul class="navbar-nav">
+
+                    <li class="nav-item  ">
+                        <a class="nav-link darktext lighttext" id="Dashboard" aria-current="page">Dashboard</a>
+                    </li> 
+                    <li class="nav-item "> 
+                        <a class="nav-link darktext lighttext " id="Profile" aria-current="page">Profile</a>
+                    </li>
+                    <li class="nav-item  d-lg-none">
+                        <a class="nav-link darktext lighttext " id="WelcomeUser" href="#">Welcome</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<style>
+    .nav-link.active, .nav-link:hover {
+        color: #0dcaf0 !important;
+        border-bottom: 3px solid #0dcaf0;
+    }
+</style>
+
+
+<script>
+    $(document).ready(function () {
+
+        $('.nav-link').click(function () {
+            $('.nav-link').removeClass('active');
+            $(this).addClass('active');
+        })
+    })
+</script>

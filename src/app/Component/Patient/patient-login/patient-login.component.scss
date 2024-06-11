@@ -1,17 +1,7 @@
-/* You can add global styles to this file, and also import other style files */
-.HelloDoclogo {
-    height: 70px;
-}
 
-.nocontain {
-    /* margin-top: 7%; */
-    background-image: url('./assets/images/admin2.png');
-    /* background-size: contain; */
-    background-size: 600px;
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-blend-mode: overlay;
-    background-color: rgba(255, 255, 255, 0.753);
+.inputtexticon i {
+    right: 15px;
+    top: 20px;
 }
 
 .isValid {
@@ -34,8 +24,4 @@
     background-repeat: no-repeat;
     background-position: right calc(0.375em + 0.1875rem) center;
     background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
-}
-
-.errorMessage{
-    color: #dc3545;
 }

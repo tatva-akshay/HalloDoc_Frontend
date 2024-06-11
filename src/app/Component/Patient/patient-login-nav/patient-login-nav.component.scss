@@ -1,0 +1,9 @@
+.HelloDoclogo {
+    height: 70px;
+}
+
+@media screen and (max-width:426px) {
+    .HelloDoclogologin {
+        display: none;
+    }
+}

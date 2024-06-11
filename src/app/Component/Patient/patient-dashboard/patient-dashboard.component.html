@@ -1,0 +1,136 @@
+
+<div id="body1" class="container-fluid border d-flex flex-column justify-content-between  min-vh-100">
+
+    <div class="row">
+        <app-dashboard-header></app-dashboard-header>
+    </div>
+
+    <div>
+        <div class="container mb-3  p-3  mt-3">
+            <div class="row ms-1 ">
+                <div class="row mt-4">
+                    <h4 class="darktext">Medical History</h4>
+                </div>
+                <div class="row shadow-lg bg-white rounded-3  ms-1">
+                    <div class="col-12 p-3 d-flex justify-content-end">
+                        <button type="button" class="btn btn-outline-info d-none d-md-inline" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Create new Request
+                        </button>
+                        <button type="button" class="btn btn-outline-info d-inline d-md-none" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-plus"></i></button>
+                    </div>
+
+                    <div class="col-12 d-none d-md-block">
+                        <div class="table-responsive">
+
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Created Date</th>
+                                        <th scope="col">Current Status</th>
+                                        <th scope="col">Chat With</th>
+                                        <th scope="col">Document</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody class="table-group-divider">
+
+                                    <!-- @{
+                                        foreach (var item in @Model.requests) 
+                                        {
+                                            <tr>
+                                                <th scope="row">@monthMap[@item.CreatedDate.Month] @item.CreatedDate.Day , @item.CreatedDate.Year</th>
+                                                <td class="fw-bold">@statusMapping[@item.Status] @* @item.RequestId  *@ </td>
+                                                <td>
+                                                    <a role="button" class="btn btn-outline-info" data-bs-toggle="offcanvas"
+                                                        data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"
+                                                        onclick="setIdForChat('@item.providerAspNetUserId')">
+                                                        <i class="fa-solid fa-user-doctor "></i><span class=" ms-2">Provider</span>
+                                                    </a>
+                                                </td>
+                                                @{
+                                                   
+                                                        <td>
+                                                            <form controller="Home" action="SingleViewDocument">
+                                                                <input type="hidden" name="Requestid" value="@item.RequestId"/> 
+                                                                <button type="submit" class="btn btn-outline-info">   
+                                                                    Documents (@item.DocumentCount)
+                                                                </button>
+                                                            </form>
+                                                        </td> 
+                                                 
+                                                }
+                                            </tr>
+                                        }
+                                    } -->
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-12 mb-3">
+                        <!-- @{
+                            @if (Model.requests != null)
+                            {
+                                <div class="accordion d-md-none mt-1" id="accordionExample">
+                                    <div class="accordion-item" style="background-color:#97d8ff;">
+                                        @foreach (var item in Model.requests)
+                                        {
+
+                                            <div class="accordion accordion-flush tableData" id="accordionFlushExample" style="background-color: #bee4fb;">
+                                                <div class="accordion-item  border-top-0 border-start-0 border-end-0 border border-dark">
+                                                    <div class="container-fluid bg-info-subtle py-2 px-3" data-bs-toggle="collapse" data-bs-target="#collapse-@item.RequestId" aria-expanded="false" style="background-color: #bee4fb;">
+
+                                                        <div class="row-cols-1 mb-2 mt-2">
+
+                                                            <div class="col d-flex justify-content-between text-black">
+
+                                                                <p class="m-0"><i class="bi bi-clock fw-bold" style="color:#00c2ff;"></i> 
+                                                                    <span class="fw-bold">Created Date: </span> 
+                                                                    </p>                                                           
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="accordion-collapse collapse" id="collapse-@item.RequestId" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="background-color: #bee4fb;">
+                                                <div class="accordion-body position-relative  border-bottom border-dark">
+                                                    <p><i class="bi bi-person-circle" style="color:#00c2ff;"></i> <span class="fw-bold">Provider : </span> @item.ProviderName</p>
+                                                    <p><i class="bi bi-check-circle" style="color:#00c2ff;"></i> <span class="fw-bold">Status : </span> : @statusMapping[@item.Status]</p>
+                                                    
+                                                    <form controller="Home" action="SingleViewDocument">
+                                                        <input type="hidden" name="Requestid" value="@item.RequestId" />
+                                                        <button type="submit" class="btn btn-outline-info">
+                                                            Documents (@item.DocumentCount)
+                                                        </button>
+                                                    </form>
+
+                                                    <a role="button" class="btn btn-outline-light" data-bs-toggle="offcanvas"
+                                                        data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"
+                                                        style="border-radius:30px; background-color:blue;"
+                                                        onclick="setIdForChat('@item.providerAspNetUserId')">
+                                                        <i class="fa-solid fa-user-doctor "></i><span class=" ms-2">Provider</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        }
+
+                                    </div>
+                                </div>
+                            }
+                        } -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <app-submitrequest-footer></app-submitrequest-footer>
+    </div>
+</div>
