@@ -34,7 +34,7 @@ export function futureDateValidator(control: AbstractControl):
 
 export function ageRangeValidator(minAge: number, maxAge: number): ValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
-        debugger
+        // debugger
       const birthdate: Date = new Date(control.value);
       const today: Date = new Date();
       const age: number = today.getFullYear() - birthdate.getFullYear();

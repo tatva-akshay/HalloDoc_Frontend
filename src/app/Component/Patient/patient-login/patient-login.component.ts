@@ -38,10 +38,10 @@ export class PatientLoginComponent {
     const passwordInput = this.elementRef.nativeElement.querySelector('#passwordshow');
     if (passwordInput.type === 'text') {
       passwordInput.type = 'password';
-      this.elementRef.nativeElement.querySelector('#hidepassword').style.display = 'none';
+      this.elementRef.nativeElement.querySelector('#hidepassword').style.display = 'block';
     } else {
       passwordInput.type = 'text';
-      this.elementRef.nativeElement.querySelector('#hidepassword').style.display = 'block';
+      this.elementRef.nativeElement.querySelector('#hidepassword').style.display = 'none';
     }
     console.log(this.loginForm.invalid);
   }

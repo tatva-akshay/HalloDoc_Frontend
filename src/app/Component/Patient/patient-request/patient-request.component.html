@@ -2,6 +2,13 @@
 
     <div class="row row-cols-1 ">
         <app-submitrequest-header></app-submitrequest-header>
+        <div class="row mt-3 mb-3 justify-content-end">
+            <div class="col-1">
+                <a role="button" class="text-decoration-none btn btn-outline-info" routerLink="/submitrequest">
+                    <i class="fa-solid fa-less-than"></i>Back
+                </a>
+            </div>
+        </div>
     </div>
 
     <div class="container mb-3 shadow-lg p-3 bg-white rounded-3 mt-3">
@@ -49,9 +56,11 @@
                                 class="errorMessage">
                                 FirstName is required.
                             </span>
-                            <!-- <span *ngIf="PatientRequestForm.get('FirstName')?.hasError('maxLength') || PatientRequestForm.get('FirstName')?.hasError('minLength')" class="errorMessage">
-                                FirstName should between 3-10 characters.
-                            </span> -->
+                            <span
+                                *ngIf="PatientRequestForm.get('FirstName')?.hasError('maxlength') || PatientRequestForm.get('FirstName')?.hasError('minlength')"
+                                class="errorMessage">
+                                FirstName should be between 3-10 characters.
+                            </span>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -72,11 +81,11 @@
                                 class="errorMessage">
                                 LastName is required.
                             </span>
-                            <!-- <span *ngIf="PatientRequestForm.get('LastName')?.touched && 
-                            ( PatientRequestForm.get('LastName')?.hasError('maxLength') || PatientRequestForm.get('LastName')?.hasError('minLength'))" 
-                            class="errorMessage">
-                                FirstName should between 3-10 characters.
-                            </span> -->
+                            <span
+                                *ngIf="PatientRequestForm.get('LastName')?.hasError('maxlength') || PatientRequestForm.get('LastName')?.hasError('minlength')"
+                                class="errorMessage">
+                                LastName should be between 3-10 characters.
+                            </span>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -165,7 +174,8 @@
                                 class="errorMessage">
                                 Password is required.
                             </span>
-                            <span *ngIf="PatientRequestForm.get('PasswordHash')?.touched && PatientRequestForm.get('PasswordHash')?.hasError('invalidPassword')"
+                            <span
+                                *ngIf="PatientRequestForm.get('PasswordHash')?.touched && PatientRequestForm.get('PasswordHash')?.hasError('invalidPassword')"
                                 class="errorMessage">
                                 Password must be at least 8 characters long and contain at least one
                                 uppercase letter, one lowercase letter, one digit, and one special
@@ -240,15 +250,12 @@
                                       PatientRequestForm.get('regionId')?.valid &&
                                       (PatientRequestForm.get('regionId')?.dirty || PatientRequestForm.get('regionId')?.touched)
                                   }">
-                                <!-- @{
-                                                <option selected disabled value=0>Chose Region</option>
-                                            foreach (var item in Model.allRegion)
-                                            {
-                                                    <option value="@item.RegionId">@item.Name</option>
-                                            }
-                                        } -->
+                                <option [value]='null' selected disabled>Choose State</option>
+                                <option *ngFor="let region of regionList" [value]="region.regionId">
+                                    {{ region.name }}
+                                </option>
                             </select>
-                            <label for="state">State</label>
+                            <label for=" state">State</label>
                             <span
                                 *ngIf="PatientRequestForm.get('regionId')?.touched && PatientRequestForm.get('regionId')?.hasError('required')"
                                 class="errorMessage">
@@ -291,7 +298,14 @@
 
                 <div class="row">
                     <div class="col">
-                        <div class="input-group mb-3">
+
+                        <!-- <div class="input-group mb-3">
+                            <input type="file" class="form-control" placeholder=""
+                                aria-label="Recipient's username" aria-describedby="button-addon2" formControlName="Files" multiple>
+                            <button class="btn btn-info text-light" type="button" id="button-addon2">Upload</button>
+                        </div> -->
+
+                        <!-- <div class="input-group mb-3">
                             <span class="position-absolute" style="left: 0; top: 10px;" id="message">
                                 No item
                                 selected
@@ -301,10 +315,9 @@
                                 <i class="bi bi-cloud-arrow-up me-1"></i>Upload
                             </button>
                             <input type="file" class="form-control file-select position-absolute border" id="my-file"
-                                style="width: 100%;" asp-for="File" multiple formControlName="File">
-                            <!-- @*                                 @Html.TextBoxFor(m => m.File, new{ type = "file", multiple = "multiple"})
-                                    *@ -->
-                        </div>
+                                style="width: 100%;" multiple formControlName="File">     
+                        </div> -->
+
                     </div>
                 </div>
 

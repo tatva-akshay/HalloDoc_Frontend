@@ -1,0 +1,16 @@
+export interface PatientDetails {
+    isPatientExist:boolean,
+    Symptoms:string,
+    FirstName:string,
+    LastName:string,
+    Bdate: Date,
+    Email: string,
+    PasswordHash:string,
+    Mobile: string,
+    Street: string,
+    City: string,
+    Zipcode: string,
+    regionId: string,
+    Room: string,
+    // File: File[],
+}

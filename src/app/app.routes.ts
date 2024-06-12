@@ -5,8 +5,12 @@ import { PatientForgotPasswordComponent } from './Component/Patient/patient-forg
 import { PatientDashboardComponent } from './Component/Patient/patient-dashboard/patient-dashboard.component';
 import { publicRouteGuard } from './Guards/public-route.guard';
 import { PatientRequestComponent } from './Component/Patient/patient-request/patient-request.component';
+import { PatientSiteComponent } from './Component/Patient/patient-site/patient-site.component';
+import { SubmitRequestComponent } from './Component/Patient/submit-request/submit-request.component';
 
 export const routes: Routes = [
+    {path:"", component:PatientSiteComponent},
+    {path:"submitrequest", component:SubmitRequestComponent},
     {path:"patient/login", component:PatientLoginComponent},
     {path:"patient/forgetpassword", component:PatientForgotPasswordComponent},
     {path:"patient/patientrequest", component:PatientRequestComponent},
