@@ -42,3 +42,12 @@
 .errorMessage{
     color: #dc3545;
 }
+
+.p-datepicker{
+    z-index: 999;
+}
+
+p-calendar span, .p-dropdown, p-button button  {
+    height: 50px;
+    width: 100%;
+}

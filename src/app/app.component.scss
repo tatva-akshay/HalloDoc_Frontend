@@ -16,3 +16,7 @@ body.dark-mode {
     color: #fff;
     border-color: #555;
 }
+
+:host ::ng-deep.toast {
+    height: 40px !important;
+}

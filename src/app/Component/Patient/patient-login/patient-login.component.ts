@@ -10,27 +10,62 @@ import { emailValidator } from '../../../Validators/Email.validator';
 import { passwordValidator } from '../../../Validators/Password.validator';
 import { CommonModule } from '@angular/common';
 
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { FormsModule } from '@angular/forms';
+import { InputTextModule } from 'primeng/inputtext';
+import { PasswordModule } from 'primeng/password';
+import { MessageService } from 'primeng/api';
+import { MessagesModule } from 'primeng/messages';
+import { ToastModule } from 'primeng/toast';
+import { ButtonModule } from 'primeng/button';
+
+import { PatientBackendCallService } from '../../../Service/Patient/patient-backend-call.service';
+// import { BrowserModule } from '@angular/platform-browser';
+// import { provideAnimations  } from '@angular/platform-browser/animations';
+
+
 @Component({
   selector: 'app-patient-login',
   standalone: true,
-  imports: [PatientLoginNavComponent, PatientLoginFooterComponent, ReactiveFormsModule, HttpClientModule, RouterLink, CommonModule],
+  imports: [
+    PatientLoginNavComponent, 
+    PatientLoginFooterComponent, 
+    ReactiveFormsModule, 
+    HttpClientModule, 
+    RouterLink, 
+    CommonModule,
+    FloatLabelModule,
+    InputTextModule,
+    FormsModule,
+    PasswordModule,
+    MessagesModule,
+    ToastModule,
+    ButtonModule
+  ],
+  providers:[PatientBackendCallService],
   templateUrl: './patient-login.component.html',
   styleUrl: './patient-login.component.scss'
 })
 export class PatientLoginComponent {
 
-  constructor(
+  constructor(  
     private elementRef: ElementRef,
     private http: HttpClient,
     private router: Router,
     private formBuilder: FormBuilder,
+    private messageService: MessageService,
+    private patientBackendCallService:PatientBackendCallService
   ) {
     
   }
 
+  ngOnInit(): void {
+    
+  }
+
   loginForm: FormGroup = this.formBuilder.group({
-    Email: ['',Validators.required,emailValidator],
-    Password: ['',Validators.required]
+    Email: ['',[Validators.required],[emailValidator]],
+    Password: ['',[Validators.required],[]]
     // Password: ['',Validators.required,passwordValidator]
   });
 
@@ -49,29 +84,38 @@ export class PatientLoginComponent {
   loginSubmit(){
     // debugger
     console.log(this.loginForm.value);
+    if(this.loginForm.invalid){
+      this.loginForm.markAllAsTouched();
+      return;
+    }
     const loginUserDetails: LoginDTO = this.loginForm.value;
 
-    this.http.post("https://localhost:7001/api/Login", loginUserDetails).subscribe((res: any) => {
-      console.log(res);
+    this.patientBackendCallService.login(loginUserDetails).subscribe((res:any)=>{
+
       if(!res.isSuccess){
         if(res.httpStatusCode == 404){
-            alert("user Not Found")
+          this.messageService.add({ severity: 'error', summary: 'Login Failed', detail: 'User Not Found!', life:3000 });
         }
         else if(res.httpStatusCode == 403){
-          alert("Invalid Password")
+          this.messageService.add({ severity: 'error', summary: 'Login Failed', detail: 'Invalid Password!' });
         }
         else if(res.httpStatusCode == 400){
-          alert("Reset your Password/Create Account")
+          this.messageService.add({ severity: 'error', summary: 'Login Failed', detail: 'Reset your Password/Create Account!' });
         }
       }
       else if(res.isSuccess){
         localStorage.setItem("token",res.result.token);
+        this.messageService.add({ severity: 'success', summary: 'Login Successful', detail: 'You have been logged in successfully.' });
         this.router.navigateByUrl("patient/dashboard");
       }
       else{
         alert("Internal error!")
       }
+
     });
+
+
+
   }
   
 }
