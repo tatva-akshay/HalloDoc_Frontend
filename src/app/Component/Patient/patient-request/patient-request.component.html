@@ -4,9 +4,7 @@
         <app-submitrequest-header></app-submitrequest-header>
         <div class="row mt-3 mb-3 justify-content-end">
             <div class="col-1">
-                <a role="button" class="text-decoration-none btn btn-outline-info" routerLink="/submitrequest">
-                    <i class="fa-solid fa-less-than"></i>Back
-                </a>
+                <p-button label="Back" [outlined]="true" severity="info" routerLink="/submitrequest" />
             </div>
         </div>
     </div>
@@ -189,9 +187,28 @@
                     </div>
 
                     <div class="col-md-6 mt-3">
-                        <div class="form-floating ">
-                            <input type="tel" class="form-control" id="phone" formControlName="Mobile">
-                        </div>
+                        <p-floatLabel>
+                            <input pInputText type="text" id="fname" formControlName="Mobile" [ngClass]="{
+                                'ng-dirty':
+                                PatientRequestForm.get('Mobile')?.invalid &&
+                                  (PatientRequestForm.get('Mobile')?.dirty ||
+                                    PatientRequestForm.get('Mobile')?.touched),
+                                'isValid':
+                                  PatientRequestForm.get('Mobile')?.valid &&
+                                  (PatientRequestForm.get('Mobile')?.dirty || PatientRequestForm.get('Mobile')?.touched)
+                              }">
+                            <label for="fname">Mobile Number</label>
+                        </p-floatLabel>
+                        <span
+                            *ngIf="PatientRequestForm.get('Mobile')?.touched && PatientRequestForm.get('Mobile')?.hasError('required')"
+                            class="errorMessage">
+                            Mobile Number is required.
+                        </span>
+                        <span
+                            *ngIf="PatientRequestForm.get('Mobile')?.hasError('maxlength') || PatientRequestForm.get('Mobile')?.hasError('minlength')"
+                            class="errorMessage">
+                            Mobile Number should be of 10 digits.
+                        </span>
                     </div>
                 </div>
 
@@ -323,7 +340,7 @@
 
                     <div class="col-md-6 mt-3">
 
-                        <p-dropdown [options]="regionList" optionValue="regionId" formControlName="regionId" placeholder="Select a City"
+                        <p-dropdown [options]="regionList" optionValue="regionId" formControlName="regionId" placeholder="Select State"
                             optionLabel="name" [ngClass]="{
                                     'ng-dirty':
                                     PatientRequestForm.get('regionId')?.invalid &&

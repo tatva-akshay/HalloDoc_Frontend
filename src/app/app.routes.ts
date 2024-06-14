@@ -9,6 +9,7 @@ import { PatientSiteComponent } from './Component/Patient/patient-site/patient-s
 import { SubmitRequestComponent } from './Component/Patient/submit-request/submit-request.component';
 import { ResetPasswordComponent } from './Component/Patient/reset-password/reset-password.component';
 import { CreateaccountComponent } from './Component/Patient/createaccount/createaccount.component';
+import { OtherRequestComponent } from './Component/Patient/other-request/other-request.component';
 
 export const routes: Routes = [
     {path:"", component:PatientSiteComponent},
@@ -18,5 +19,6 @@ export const routes: Routes = [
     {path:"patient/resetpassword", component:ResetPasswordComponent},
     {path:"patient/createaccount", component:CreateaccountComponent},
     {path:"patient/patientrequest", component:PatientRequestComponent},
+    {path:"patient/otherrequest", component:OtherRequestComponent},
     {path:"patient/dashboard", component:PatientDashboardComponent, canActivate: [publicRouteGuard]},
 ];

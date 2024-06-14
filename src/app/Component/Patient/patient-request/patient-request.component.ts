@@ -75,7 +75,7 @@ export class PatientRequestComponent {
     LastName: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(3)]],
     Bdate: ['', [Validators.required], [futureDateValidator, ageRangeValidator(18, 50)]],
     Email: ['', [Validators.required], [emailValidator]],
-    Mobile: ['', [Validators.required]],
+    Mobile: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(10)],[]],
     Street: ['', [Validators.required]],
     City: ['', [Validators.required]],
     Zipcode: ['', [Validators.required]],

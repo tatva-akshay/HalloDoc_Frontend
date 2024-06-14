@@ -7,3 +7,8 @@
         display: none;
     }
 }
+
+:host ::ng-deep .p-button{
+    border-radius: 10%;
+    // height: 60%;
+}

@@ -1,5 +1,5 @@
 
-<header id="nav" style="padding:0px">
+<header id="nav">
 
     <div class="navbar navbar-light d-flex border border-bottom justify-content-between align-items-center">
 
@@ -10,35 +10,35 @@
         </div>
 
         <div class="d-flex justify-content-center align-items-center ms-3">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand">
                 <div class="col d-flex justify-content-start">
-                    <img class="HelloDoclogo" src="~/images/Fig56. Patient site 1.png" alt="">
+                    <img class="HelloDoclogo" src="../../../../assets/images/Fig56. Patient site 1.png" alt="">
                 </div>
             </a>
         </div>
 
         <div class="d-flex justify-content-between align-items-center ">
-            <a class="navbar-brand hamburgeruser" href="#" style="margin-top: 15px;">
+            <a class="navbar-brand hamburgeruser" style="margin-top: 15px;">
                 <div class="col d-flex justify-content-start darktext">
-                    Welcome 
+                    Welcome {{this.userEmail}}
                 </div>
             </a>
 
-            <a class="navbar-brand" style="padding-top:0px">
+            <a class="navbar-brand">
                 <div class="col-auto mt-3 ">
-                    <button type="submit" class="btn btn-outline-info" (click)="Logout()">
+                    <p-button severity="info" [outlined]="true" type="submit" (click)="Logout()">
                         <span class="hamburger">Logout</span>
-                        <div><i class="bi bi-box-arrow-right hamburgermenu"></i></div>
-                    </button>
+                        <i class="ms-2 bi bi-box-arrow-right hamburgermenu"></i>
+                    </p-button>
+                    
                 </div>
             </a>
 
-            <a class="navbar-brand" href="#" style="padding-top:0px">
+            <a class="navbar-brand">
                 <div class="col-auto mt-3">
-                    <button type="submit" id="butn" class="btn btn-outline-info"
-                            onclick="submitrequestscreenf()">
-                        <i class="bi bi-moon"></i>
-                    </button>
+                    <p-button label="" [outlined]="true"  severity="info">
+                        <i class="bi bi-moon" style="font-size: 30px"></i>
+                    </p-button>
                 </div>
             </a>
         </div>

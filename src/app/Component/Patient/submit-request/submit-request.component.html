@@ -13,32 +13,22 @@
                 <div class="row align-items-center ">
                     <div class="col fs-4 ms-3">I am a...</div>
                     <div class="col">
-                        <a role="button" class="btn btn-outline-info" routerLink="">Back</a>
+                        <p-button label="Back" [outlined]="true" severity="info" routerLink="" />
                     </div>
                 </div>
 
                 <div class="row flex-column justify-content-start mt-1">
-                    <div class="col ms-3">
-                        <a role="button" class="btn btn-outline-primary text-start mt-3 patient"
-                            routerLink="/patient/patientrequest">
-                            PATIENT
-                        </a>
+                    <div class="col ms-3 mt-3">
+                        <p-button label=" PATIENT" class="" severity="primary" routerLink="/patient/patientrequest" />                      
                     </div>
-                    <div class="col ms-3">
-                        <a role="button" class="btn btn-outline-info text-start mt-3 family">
-                            FAMILY/FRIEND
-                        </a>
+                    <div class="col ms-3 mt-3">
+                        <p-button label="FAMILY/FRIEND" class="" severity="info" routerLink="/patient/otherrequest" (onClick)="OtherRequest(2)" />   
                     </div>
-                    <div class="col ms-3">
-                        <a role="button" class="btn btn-outline-success text-start mt-3 concierge">
-                            CONCIERGE
-                        </a>
+                    <div class="col ms-3 mt-3">
+                        <p-button label="CONCIERGE" class="" severity="success" routerLink="/patient/otherrequest" (onClick)="OtherRequest(3)" />   
                     </div>
-                    <div class="col ms-3">
-                        <a role="button" class="btn btn-outline-danger text-start mt-3 business">
-                            BUSINESS
-                            PARTNERS
-                        </a>
+                    <div class="col ms-3 mt-3">
+                        <p-button label=" BUSINESS PARTNERS" class="" severity="danger" routerLink="/patient/otherrequest" (onClick)="OtherRequest(4)" />   
                     </div>
                 </div>
 

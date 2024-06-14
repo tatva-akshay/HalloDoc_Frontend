@@ -5,6 +5,7 @@ import { Observable, map } from 'rxjs';
 import { LoginDTO } from '../../Model/Interface/Login/login-dto';
 import { ValidateEmailDTO } from '../../Model/Interface/Patient/validate-email-dto';
 import { PatientDetails } from '../../Model/Interface/Patient/patient-details';
+import { OtherRequestDTO } from '../../Model/Interface/Patient/other-request-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -67,6 +68,24 @@ export class PatientBackendCallService {
 
   resetPassword(resetPasswordDetails:LoginDTO): Observable<APIResponse>{
     return this.http.post<APIResponse>(`${this.apiUrl}/api/Patient/ResetPassword`,resetPasswordDetails)
+    .pipe(
+      map((response) => {
+        return response;
+      })
+    );
+  } 
+
+  otherRequset(otherRequestDetails:OtherRequestDTO): Observable<APIResponse>{
+    return this.http.post<APIResponse>(`${this.apiUrl}/api/Patient/OtherRequest`,otherRequestDetails)
+    .pipe(
+      map((response) => {
+        return response;
+      })
+    );
+  } 
+
+  getDashboardContent(userEmail:ValidateEmailDTO): Observable<APIResponse>{
+    return this.http.get<APIResponse>(`${this.apiUrl}/api/Patient/PatientDashboard?Email=${userEmail.email}`)
     .pipe(
       map((response) => {
         return response;

@@ -3,11 +3,18 @@ import { PatientLoginNavComponent } from '../patient-login-nav/patient-login-nav
 import { PatientLoginFooterComponent } from '../patient-login-footer/patient-login-footer.component';
 import { Router, RouterLink } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-patient-site',
   standalone: true,
-  imports: [PatientLoginNavComponent ,PatientLoginFooterComponent, RouterLink, HttpClientModule],
+  imports: [
+    PatientLoginNavComponent ,
+    PatientLoginFooterComponent, 
+    RouterLink, 
+    HttpClientModule,
+    ButtonModule
+  ],
   templateUrl: './patient-site.component.html',
   styleUrl: './patient-site.component.scss'
 })

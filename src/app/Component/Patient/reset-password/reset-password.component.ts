@@ -32,7 +32,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     RouterLink,
     HttpClientModule
   ],
-  providers:[MessageService,PatientBackendCallService],
+  providers:[PatientBackendCallService],
   templateUrl: './reset-password.component.html',
   styleUrl: './reset-password.component.scss'
 })
@@ -71,10 +71,10 @@ export class ResetPasswordComponent {
     console.log(this.ResetPasswordForm.valid)
     console.log(this.ResetPasswordForm.value)
     this.ResetPasswordForm.markAllAsTouched();
-    const resetPassword: LoginDTO = this.ResetPasswordForm.value();
+    const resetPassword: LoginDTO = this.ResetPasswordForm.value;
     console.log(resetPassword)
     this.patientBackendCallService.resetPassword(resetPassword).subscribe((res:any)=>{
-        if(res.isSUccess){
+        if(res.isSuccess){
           this.messageService.add({ severity: 'success', detail: 'Password Reset Successfull!', life: 3000 });
           this.router.navigateByUrl('/patient/login');
         }

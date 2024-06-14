@@ -33,6 +33,9 @@
     height: 50px;
     width: 100%;
 }
+:host ::ng-deep .p-password-panel	{
+    display: none;
+}
 
 :host ::ng-deep.p-password input[type="password"]{
     height: 100%;
