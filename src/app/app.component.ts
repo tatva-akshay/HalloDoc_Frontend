@@ -3,21 +3,21 @@ import { RouterOutlet } from '@angular/router';
 import { LayoutComponent } from './Component/Common/layout/layout.component';
 
 import { ToastModule } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { MessagesModule } from 'primeng/messages';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, LayoutComponent, ToastModule, MessagesModule],
-  providers: [MessageService],
+  providers: [MessageService,ConfirmationService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
   constructor(
-    private messageService: MessageService
-
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService
   ) {
 
   }

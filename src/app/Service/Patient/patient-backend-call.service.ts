@@ -66,6 +66,15 @@ export class PatientBackendCallService {
     );
   } 
 
+  resetPasswordValidate(token:string): Observable<APIResponse>{
+    return this.http.get<APIResponse>(`${this.apiUrl}/api/Patient/ResetPassword?token=${token}`)
+    .pipe(
+      map((response) => {
+        return response;
+      })
+    );
+  } 
+
   resetPassword(resetPasswordDetails:LoginDTO): Observable<APIResponse>{
     return this.http.post<APIResponse>(`${this.apiUrl}/api/Patient/ResetPassword`,resetPasswordDetails)
     .pipe(

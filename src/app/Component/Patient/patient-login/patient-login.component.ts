@@ -69,17 +69,17 @@ export class PatientLoginComponent {
     // Password: ['',Validators.required,passwordValidator]
   });
 
-  visiblitypassword() {
-    const passwordInput = this.elementRef.nativeElement.querySelector('#passwordshow');
-    if (passwordInput.type === 'text') {
-      passwordInput.type = 'password';
-      this.elementRef.nativeElement.querySelector('#hidepassword').style.display = 'block';
-    } else {
-      passwordInput.type = 'text';
-      this.elementRef.nativeElement.querySelector('#hidepassword').style.display = 'none';
-    }
-    console.log(this.loginForm.invalid);
-  }
+  // visiblitypassword() {
+  //   const passwordInput = this.elementRef.nativeElement.querySelector('#passwordshow');
+  //   if (passwordInput.type === 'text') {
+  //     passwordInput.type = 'password';
+  //     this.elementRef.nativeElement.querySelector('#hidepassword').style.display = 'block';
+  //   } else {
+  //     passwordInput.type = 'text';
+  //     this.elementRef.nativeElement.querySelector('#hidepassword').style.display = 'none';
+  //   }
+  //   console.log(this.loginForm.invalid);
+  // }
 
   loginSubmit() {
     // debugger
@@ -91,7 +91,6 @@ export class PatientLoginComponent {
     const loginUserDetails: LoginDTO = this.loginForm.value;
 
     this.patientBackendCallService.login(loginUserDetails).subscribe((res: any) => {
-
       if (!res.isSuccess) {
         if (res.httpStatusCode == 404) {
           this.messageService.add({ severity: 'error', summary: 'Login Failed', detail: 'User Not Found!', life: 3000 });

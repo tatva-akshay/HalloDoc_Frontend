@@ -10,15 +10,18 @@ import { SubmitRequestComponent } from './Component/Patient/submit-request/submi
 import { ResetPasswordComponent } from './Component/Patient/reset-password/reset-password.component';
 import { CreateaccountComponent } from './Component/Patient/createaccount/createaccount.component';
 import { OtherRequestComponent } from './Component/Patient/other-request/other-request.component';
+import { resetpasswordGuardGuard } from './Guards/resetpassword-guard.guard';
+import { PatientprofileComponent } from './Component/Patient/patientprofile/patientprofile.component';
 
 export const routes: Routes = [
     {path:"", component:PatientSiteComponent},
     {path:"submitrequest", component:SubmitRequestComponent},
     {path:"patient/login", component:PatientLoginComponent},
     {path:"patient/forgetpassword", component:PatientForgotPasswordComponent},
-    {path:"patient/resetpassword", component:ResetPasswordComponent},
-    {path:"patient/createaccount", component:CreateaccountComponent},
+    {path:"patient/resetpassword", component:ResetPasswordComponent, canActivate: [resetpasswordGuardGuard]},
+    {path:"patient/createaccount", component:CreateaccountComponent, canActivate: [resetpasswordGuardGuard]},
     {path:"patient/patientrequest", component:PatientRequestComponent},
     {path:"patient/otherrequest", component:OtherRequestComponent},
     {path:"patient/dashboard", component:PatientDashboardComponent, canActivate: [publicRouteGuard]},
+    {path:"patient/profile", component:PatientprofileComponent, canActivate: [publicRouteGuard]},
 ];
