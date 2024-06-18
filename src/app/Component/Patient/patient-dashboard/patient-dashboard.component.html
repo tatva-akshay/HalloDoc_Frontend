@@ -1,28 +1,25 @@
-<p-dialog  header="Create New Request" [(visible)]="newRequest" [style]="{ 
+<p-dialog header="Create New Request" [(visible)]="newRequest" [style]="{ 
     fontWeight: '500',  
     border: '2px solid black'
 }">
 
-    <ng-template pTemplate="p-dialog-content" >
+    <ng-template pTemplate="p-dialog-content">
         <div class="d-flex justify-content-center align-items-center mx-3 mt-3">
-            <p-button label="For Me" severity="info" [outlined]="!forMeRequest" (click)="forMeRequest=true" (click)="someoneElseRequest=false">
+            <p-button label="For Me" severity="info" [outlined]="!forMeRequest" (click)="forMeRequest=true"
+                (click)="someoneElseRequest=false">
             </p-button>
-            <p-button label="Someone Else" severity="info" [outlined]="!someoneElseRequest" (click)="someoneElseRequest=true" (click)="forMeRequest=false"  class="ms-3">
+            <p-button label="Someone Else" severity="info" [outlined]="!someoneElseRequest"
+                (click)="someoneElseRequest=true" (click)="forMeRequest=false" class="ms-3">
             </p-button>
         </div>
     </ng-template>
 
     <ng-template pTemplate="footer">
         <div class="d-flex justify-content-end align-items-center mx-2">
-            <p-button label="Ok" 
-            severity="info" 
-            [outlined]="false"
-            [disabled]="(!forMeRequest && !someoneElseRequest)"
-            (onClick)="submitRequest()"
-            >
+            <p-button label="Ok" severity="info" [outlined]="false" [disabled]="(!forMeRequest && !someoneElseRequest)"
+                (onClick)="submitRequest()">
             </p-button>
-            <p-button label="cancel" severity="info" [outlined]="true" class="ms-3"
-            (click)="newRequest=false">
+            <p-button label="cancel" severity="info" [outlined]="true" class="ms-3" (click)="newRequest=false">
             </p-button>
         </div>
     </ng-template>
@@ -43,11 +40,11 @@
                 <div class="row shadow-lg bg-white rounded-3 mx-1">
                     <div class="col-12 p-3 d-flex justify-content-end">
 
-                        <p-button type="button" [outlined]="true" severity="info"
-                            (onClick)="newRequestFunction()">
-                            <span class="d-none d-md-inline" (click)="someoneElseRequest=false" (click)="forMeRequest=false">
+                        <p-button type="button" [outlined]="true" severity="info" (onClick)="newRequestFunction()">
+                            <span class="d-none d-md-inline" (click)="someoneElseRequest=false"
+                                (click)="forMeRequest=false">
                                 Create new Request
-                            </span> 
+                            </span>
                             <i class="bi bi-plus d-inline d-md-none"></i>
                         </p-button>
                     </div>
@@ -65,18 +62,16 @@
                                 </thead>
 
                                 <tbody class="table-group-divider">
-
-                                    <tr *ngFor="let item of dashboardtableContent" id="dashboardRow">
+                                    
+                                    <tr *ngFor="let item of dashboardtableContent" class="dashboardRow">
                                         <td>{{ item.createdDate | date:'d MMMM yyyy' }}</td>
                                         <td>{{item.statusName}}</td>
                                         <td>
-                                            <p-button [outlined]="true" severity="info" id="documentButton"
-                                                *ngIf="item.documentCount>0">
-                                                {{item.documentCount}} Documents
-                                            </p-button>
-
+                                                <p-button [outlined]="true" severity="info" id="documentButton"
+                                                    *ngIf="item.documentCount>0" (onClick)="getViewDocument(item.requestId)">
+                                                    {{item.documentCount}} Documents 
+                                                </p-button>
                                             <span *ngIf="!(item.documentCount>0)">No Document</span>
-
                                         </td>
                                     </tr>
 

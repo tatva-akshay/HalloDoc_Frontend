@@ -29,7 +29,7 @@ export class DashboardHeaderComponent {
 
   ngOnInit() {
     this.items = [
-      { label: 'Dashboard', icon: 'pi pi-home', routerLink:['/patient/dashboard'] },
+      { label: 'Dashboard', icon: 'pi pi-home', routerLink:['/patient/dashboard'], id:'Dashboard' },
       { label: 'Profile', icon: 'pi pi-user', routerLink:['/patient/profile']}
     ]
   }
@@ -42,6 +42,7 @@ export class DashboardHeaderComponent {
   sidebarVisible: boolean = false;
   Logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('email');
     this.messageService.add({ severity: 'success', summary: 'Login Out', detail: 'Successfully Logged Out', life: 3000 });
     this.router.navigateByUrl("patient/login")
   }

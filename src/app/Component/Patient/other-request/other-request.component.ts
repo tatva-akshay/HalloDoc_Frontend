@@ -72,6 +72,13 @@ export class OtherRequestComponent {
     });
   }
 
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    localStorage.removeItem('requestType');
+
+  }
+
   otherRequestForm: FormGroup = this.formBuilder.group({
     YFirstName: ['', [Validators.required,Validators.maxLength(10), Validators.minLength(3)]],
     YLastName: ['', [Validators.maxLength(10), Validators.minLength(3)]],

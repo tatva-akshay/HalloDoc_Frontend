@@ -2,14 +2,291 @@
 
     <div class="">
         <app-dashboard-header></app-dashboard-header>
+        <div class="d-flex mt-3 mb-3 justify-content-end">
+            <div class="me-3">
+                <p-button label="Back" [outlined]="true" severity="info" routerLink="/patient/dashboard" />
+            </div>
+        </div>
     </div>
 
-    <div>
-       Profile
-        
+    <div class="container mb-3 shadow-lg p-3 bg-white rounded-3 mt-3">
+        <form method="post" [formGroup]="patientProfileForm" (submit)="EditPatientProfile()">
+            <div class="row mt-3">
+                <p class="fs-4 fw-semibold">General Information</p>
+                <div class="row">
+                    <div class="col-md-6 mt-3">
+                        <p-floatLabel>
+                            <input pInputText type="text" id="fname" formControlName="FirstName"
+                                [readOnly]="isEditButton" [ngClass]="{
+                                'ng-dirty':
+                                patientProfileForm.get('FirstName')?.invalid &&
+                                  (patientProfileForm.get('FirstName')?.dirty ||
+                                    patientProfileForm.get('FirstName')?.touched),
+                              }">
+                            <label for="fname">First Name</label>
+                        </p-floatLabel>
+                        <span
+                            *ngIf="( (patientProfileForm.get('FirstName')?.touched) && (patientProfileForm.get('FirstName')?.hasError('required'))) "
+                            class="errorMessage">
+                            FirstName is Required
+                        </span>
+                        <span
+                            *ngIf="patientProfileForm.get('FirstName')?.hasError('maxlength') || patientProfileForm.get('FirstName')?.hasError('minlength')"
+                            class="errorMessage">
+                            FirstName should be between 3-10 characters.
+                        </span>
+                    </div>
+                    <div class="col-md-6 mt-3">
+                        <p-floatLabel>
+                            <input pInputText type="text" id="lname" formControlName="LastName"
+                                [readOnly]="isEditButton" [ngClass]="{
+                                'ng-dirty':
+                                patientProfileForm.get('LastName')?.invalid &&
+                                  (patientProfileForm.get('LastName')?.dirty ||
+                                    patientProfileForm.get('LastName')?.touched),
+                                
+                              }">
+                            <label for="lname">Last Name</label>
+                        </p-floatLabel>
+                        <span
+                            *ngIf="((patientProfileForm.get('LastName')?.touched) && (patientProfileForm.get('LastName')?.hasError('required')))"
+                            class="errorMessage">
+                            LastName is Required!
+                        </span>
+                        <span
+                            *ngIf="patientProfileForm.get('LastName')?.hasError('maxlength') || patientProfileForm.get('LastName')?.hasError('minlength')"
+                            class="errorMessage">
+                            LastName should be between 3-10 characters!
+                        </span>
+                    </div>
+                    <div class="col-md-6 mt-3">
+                        <p-calendar class="" formControlName="Bdate" [iconDisplay]="'input'" [showIcon]="true"
+                            inputId="Bdate" [ngClass]="{
+                            'ng-dirty':
+                            patientProfileForm.get('Bdate')?.invalid &&
+                              (patientProfileForm.get('Bdate')?.dirty ||
+                                patientProfileForm.get('Bdate')?.touched),
+                            'isValid':
+                              patientProfileForm.get('Bdate')?.valid &&
+                              (patientProfileForm.get('Bdate')?.dirty || patientProfileForm.get('Bdate')?.touched)
+                          }" />
+                        <span
+                            *ngIf="patientProfileForm.get('Bdate')?.touched && patientProfileForm.get('Bdate')?.hasError('required')"
+                            class="errorMessage">
+                            BirthDate is required.
+                        </span>
+                        <span *ngIf="patientProfileForm.get('Bdate')?.hasError('futureDate')" class="errorMessage">
+                            BirthDate can't be in future.
+                        </span>
+                        <span *ngIf="patientProfileForm.get('Bdate')?.hasError('invalidAge')" class="errorMessage">
+                            Age between 18-50 are allowed.
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <p class="fs-4 fw-semibold">Contact Information</p>
+                <div class="row">
+                    <div class="col-md-2 mt-3">
+                        <p-dropdown [options]="callTypeList" optionValue="value" formControlName="CallType"
+                            [readonly]="true" placeholder="Mobile" optionLabel="name" [ngClass]="{
+                                'ng-dirty':
+                                patientProfileForm.get('CallType')?.invalid &&
+                                  (patientProfileForm.get('CallType')?.dirty ||
+                                    patientProfileForm.get('CallType')?.touched),
+                                'isValid':
+                                  patientProfileForm.get('CallType')?.valid &&
+                                  (patientProfileForm.get('CallType')?.dirty || patientProfileForm.get('CallType')?.touched)
+                              }" />
+                        <span
+                            *ngIf="patientProfileForm.get('CallType')?.touched && patientProfileForm.get('CallType')?.hasError('required')"
+                            class="errorMessage">
+                            CallType is required!
+                        </span>
+                    </div>
+                    <div class="col-md-5 mt-3">
+                        <p-floatLabel>
+                            <input pInputText type="text" id="mobile" formControlName="Mobile" [readOnly]="isEditButton"
+                                [ngClass]="{
+                                'ng-dirty':
+                                patientProfileForm.get('Mobile')?.invalid &&
+                                  (patientProfileForm.get('Mobile')?.dirty ||
+                                    patientProfileForm.get('Mobile')?.touched),
+                              }">
+                            <label for="mobile">Mobile Number</label>
+                        </p-floatLabel>
+                        <span
+                            *ngIf="patientProfileForm.get('Mobile')?.touched && patientProfileForm.get('Mobile')?.hasError('required')"
+                            class="errorMessage">
+                            Mobile Number is Required
+                        </span>
+                        <span
+                            *ngIf="patientProfileForm.get('Mobile')?.hasError('maxlength') || patientProfileForm.get('Mobile')?.hasError('minlength')"
+                            class="errorMessage">
+                            Mobile Number should be of 10 digits.
+                        </span>
+                    </div>
+                    <div class="col-md-5 mt-3">
+                        <p-floatLabel>
+                            <input pInputText type="text" id="email" formControlName="Email" [readOnly]="true"
+                                [ngClass]="{
+                                'ng-dirty':
+                                patientProfileForm.get('Email')?.invalid &&
+                                  (patientProfileForm.get('Email')?.dirty ||
+                                    patientProfileForm.get('Email')?.touched),
+                              }">
+                            <label for="email">Email</label>
+                        </p-floatLabel>
+                        <span
+                            *ngIf="((patientProfileForm.get('Email')?.touched) && (patientProfileForm.get('Email')?.hasError('required')))"
+                            class="errorMessage">
+                            Email is Required!
+                        </span>
+                        <span *ngIf="patientProfileForm.get('LastName')?.hasError('invalidEmail')" class="errorMessage">
+                            Email is not Valid!
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row mt-3">
+                <p class="fs-4 fw-semibold">Location Information</p>
+                <div class="row">
+                    <div class="col-md-6 mt-3">
+                        <p-floatLabel>
+                            <input pInputText type="text" id="street" formControlName="Street" [readOnly]="isEditButton"
+                                [ngClass]="{
+                                'ng-dirty':
+                                patientProfileForm.get('Street')?.invalid &&
+                                  (patientProfileForm.get('Street')?.dirty ||
+                                    patientProfileForm.get('Street')?.touched),
+                              }">
+                            <label for="mobile">Mobile Number</label>
+                        </p-floatLabel>
+                        <span
+                            *ngIf="patientProfileForm.get('Street')?.touched && patientProfileForm.get('Street')?.hasError('required')"
+                            class="errorMessage">
+                            Street is Required!
+                        </span>
+                    </div>
+                    <div class="col-md-6 mt-3">
+                        <p-floatLabel>
+                            <input pInputText type="text" id="city" formControlName="City" [readOnly]="isEditButton"
+                                [ngClass]="{
+                                'ng-dirty':
+                                patientProfileForm.get('City')?.invalid &&
+                                  (patientProfileForm.get('City')?.dirty ||
+                                    patientProfileForm.get('City')?.touched),
+                              }">
+                            <label for="mobile">Mobile Number</label>
+                        </p-floatLabel>
+                        <span
+                            *ngIf="patientProfileForm.get('City')?.touched && patientProfileForm.get('City')?.hasError('required')"
+                            class="errorMessage">
+                            City is Required!
+                        </span>
+                    </div>
+                    <div class="col-md-6 mt-3">
+
+                        <p-dropdown [options]="regionList" optionValue="regionId" formControlName="regionId"
+                            [readonly]="isEditButton" placeholder="Select State" optionLabel="name" [ngClass]="{
+                                    'ng-dirty':
+                                    patientProfileForm.get('regionId')?.invalid &&
+                                      (patientProfileForm.get('regionId')?.dirty ||
+                                        patientProfileForm.get('regionId')?.touched),
+                                    'isValid':
+                                      patientProfileForm.get('regionId')?.valid &&
+                                      (patientProfileForm.get('regionId')?.dirty || patientProfileForm.get('regionId')?.touched)
+                                  }" />
+                        <span
+                            *ngIf="patientProfileForm.get('regionId')?.touched && patientProfileForm.get('regionId')?.hasError('required')"
+                            class="errorMessage">
+                            Region is required.
+                        </span>
+                    </div>
+                    <div class="col-md-5 col-10 mt-3">
+                        <p-floatLabel>
+                            <input pInputText type="number" id="zipcode" placeholder="" formControlName="Zipcode"
+                                [ngClass]="{
+                                'ng-dirty':
+                                patientProfileForm.get('Zipcode')?.invalid &&
+                                  (patientProfileForm.get('Zipcode')?.dirty ||
+                                    patientProfileForm.get('Zipcode')?.touched),
+                                'isValid':
+                                  patientProfileForm.get('Zipcode')?.valid &&
+                                  (patientProfileForm.get('Zipcode')?.dirty || patientProfileForm.get('Zipcode')?.touched)
+                              }">
+                            <label for="zipcode">Zip Code </label>
+                        </p-floatLabel>
+                        <span
+                            *ngIf="patientProfileForm.get('Zipcode')?.touched && patientProfileForm.get('Zipcode')?.hasError('required')"
+                            class="errorMessage">
+                            ZipCode is required.
+                        </span>
+                    </div>
+                    <div class="col-md-1 col-2 mt-3">
+                        <p-button label="" id="locationButton" [outlined]="true" severity="info" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                            icon="pi pi-map-marker">
+                        </p-button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mt-3 d-flex justify-content-end mb-3 me-3">
+                <p-button label="Edit" *ngIf="isEditButton" [outlined]="false" severity="info"
+                    [style]="{'color':'white'}" (click)="isEditButton=false">
+                </p-button>
+
+                <p-button label="Save" (onClick)="EditPatientProfile()" *ngIf="!isEditButton" [outlined]="false"
+                    severity="success" [style]="{'color':'white'}">
+                </p-button>
+
+                <p-button label="Cancel" *ngIf="!isEditButton" [outlined]="false" severity="danger"
+                    [style]="{'color':'white'}" [styleClass]="'ms-2'" (onClick)="resetForm()">
+
+                </p-button>
+            </div>
+        </form>
+
     </div>
 
     <div class="">
         <app-submitrequest-footer></app-submitrequest-footer>
     </div>
+
 </div>
+<!-- 
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <section>
+                <div class="mapouter">
+                    <div class="gmap_canvas">
+                        <iframe width="600" height="500" id="gmap_canvas" src="" frameborder="0" scrolling="no"
+                            marginheight="0" marginwidth="0">
+
+                            <style>
+                                .mapouter {
+                                    position: relative;
+                                    text-align: right;
+                                    height: 500px;
+                                    width: 600px;
+                                }
+                            </style>
+                            <style>
+                                .gmap_canvas {
+                                    overflow: hidden;
+                                    background: none !important;
+                                    height: 500px;
+                                    width: 600px;
+                                }
+                            </style>
+                        </iframe>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div> -->

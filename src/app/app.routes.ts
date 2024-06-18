@@ -12,6 +12,7 @@ import { CreateaccountComponent } from './Component/Patient/createaccount/create
 import { OtherRequestComponent } from './Component/Patient/other-request/other-request.component';
 import { resetpasswordGuardGuard } from './Guards/resetpassword-guard.guard';
 import { PatientprofileComponent } from './Component/Patient/patientprofile/patientprofile.component';
+import { ViewDocumentComponent } from './Component/Patient/view-document/view-document.component';
 
 export const routes: Routes = [
     {path:"", component:PatientSiteComponent},
@@ -24,4 +25,5 @@ export const routes: Routes = [
     {path:"patient/otherrequest", component:OtherRequestComponent},
     {path:"patient/dashboard", component:PatientDashboardComponent, canActivate: [publicRouteGuard]},
     {path:"patient/profile", component:PatientprofileComponent, canActivate: [publicRouteGuard]},
+    {path:"patient/viewdocument", component:ViewDocumentComponent, canActivate: [publicRouteGuard]},
 ];

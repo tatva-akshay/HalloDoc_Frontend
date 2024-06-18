@@ -15,6 +15,9 @@ import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { DialogModule } from "primeng/dialog";
+import { AuthService } from '../../../Service/Patient/authservice.service';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -29,18 +32,22 @@ import { DialogModule } from "primeng/dialog";
     TableModule,
     ButtonModule,
     ConfirmDialogModule,
-    DialogModule
+    DialogModule,
+    HttpClientModule,
   ],
   providers: [PatientBackendCallService],
   templateUrl: './patient-dashboard.component.html',
   styleUrl: './patient-dashboard.component.scss'
 })
+
 export class PatientDashboardComponent {
 
   constructor(
     private messageService: MessageService,
     private patientBackendCallService: PatientBackendCallService,
-    private confirmationService: ConfirmationService
+    private router: Router,
+    private confirmationService: ConfirmationService,
+    private authService : AuthService
   ) {
 
   }
@@ -52,10 +59,11 @@ export class PatientDashboardComponent {
   newRequestFunction() {
     this.newRequest = true;
   }
+
   ngOnInit(): void {
     // debugger
     const userEmailDTO: ValidateEmailDTO = {
-      email: localStorage.getItem('email')!
+      email: this.authService.getUserEmail()!
     };
     this.patientBackendCallService.getDashboardContent(userEmailDTO).subscribe({
       next: (response: any) => {
@@ -69,22 +77,9 @@ export class PatientDashboardComponent {
     });
   }
 
-  confirm1(event: Event) {
-    this.confirmationService.confirm({
-      target: event.target as EventTarget,
-      message: 'Are you sure that you want to proceed?',
-      header: 'Confirmation',
-      icon: 'pi pi-exclamation-triangle',
-      acceptIcon: "none",
-      rejectIcon: "none",
-      rejectButtonStyleClass: "p-button-text",
-      accept: () => {
-        this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Enter Details' });
-      },
-      reject: () => {
-        this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'Cancelled', life: 3000 });
-      }
-    });
+  getViewDocument(requestId:number){
+    console.log(requestId)
+    this.router.navigateByUrl(`patient/viewdocument?requestId=${requestId}`)
   }
 
   submitRequest(){

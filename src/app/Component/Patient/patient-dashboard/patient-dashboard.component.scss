@@ -2,14 +2,14 @@
     width: fit-content;
 }
 
-#dashboardRow {
+.dashboardRow {
     height: 60px;
 }
 
-:host ::ng-deep .p-dialog-titlebar {
-    background-color: #0dcaf0;
-    color: white;
-}
+// :host ::ng-deep .p-dialog-titlebar {
+//     background-color: #0dcaf0;
+//     color: white;
+// }
 
 :host ::ng-deep .p-dialog-header {
     background-color: #0dcaf0;

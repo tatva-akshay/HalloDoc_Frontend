@@ -6,6 +6,7 @@ import { LoginDTO } from '../../Model/Interface/Login/login-dto';
 import { ValidateEmailDTO } from '../../Model/Interface/Patient/validate-email-dto';
 import { PatientDetails } from '../../Model/Interface/Patient/patient-details';
 import { OtherRequestDTO } from '../../Model/Interface/Patient/other-request-dto';
+import { PatientProfile } from '../../Model/Interface/Patient/patient-profile';
 
 @Injectable({
   providedIn: 'root'
@@ -95,6 +96,33 @@ export class PatientBackendCallService {
 
   getDashboardContent(userEmail:ValidateEmailDTO): Observable<APIResponse>{
     return this.http.get<APIResponse>(`${this.apiUrl}/api/Patient/PatientDashboard?Email=${userEmail.email}`)
+    .pipe(
+      map((response) => {
+        return response;
+      })
+    );
+  } 
+  
+  getPatientProfile(userEmail:ValidateEmailDTO): Observable<APIResponse>{
+    return this.http.get<APIResponse>(`${this.apiUrl}/api/Patient/GetPatientProfile?email=${userEmail.email}`)
+    .pipe(
+      map((response) => {
+        return response;
+      })
+    );
+  } 
+
+  updatePatientProfile(patientprofile:PatientProfile): Observable<APIResponse>{
+    return this.http.put<APIResponse>(`${this.apiUrl}/api/Patient/EditPatientProfile`,patientprofile)
+    .pipe(
+      map((response) => {
+        return response;
+      })
+    );
+  } 
+
+  getViewDocument(requestId:number): Observable<APIResponse>{
+    return this.http.get<APIResponse>(`${this.apiUrl}/api/Patient/SingleRequestView?requestId=${requestId}`)
     .pipe(
       map((response) => {
         return response;

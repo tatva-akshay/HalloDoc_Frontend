@@ -5,9 +5,14 @@ import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { MessageService } from 'primeng/api';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { myInterceptorInterceptor } from './Interceptors/my-interceptor.interceptor';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), provideClientHydration(),provideAnimations(), provideHttpClient(withInterceptors([myInterceptorInterceptor]))]
+  providers: [provideRouter(routes), provideClientHydration(),provideAnimations(),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: myInterceptorInterceptor,
+      multi: true
+    }]
 };

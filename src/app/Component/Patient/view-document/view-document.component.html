@@ -1,0 +1,90 @@
+<div id="body1" class=" border d-flex flex-column justify-content-between min-vh-100">
+
+    <div class="">
+        <app-dashboard-header></app-dashboard-header>
+        <div class="d-flex mt-3 mb-3 justify-content-end">
+            <div class="me-3">
+                <p-button label="Back" [outlined]="true" severity="info" routerLink="/patient/dashboard" />
+            </div>
+        </div>
+    </div>
+
+    <div class="container mb-3 shadow-lg p-3 bg-white rounded-3 mt-3">
+
+        <div class="row mt-3">
+            <div class="col d-flex justify-content-between align-content-center">
+                <h4 class="fw-bold darktext">Documents</h4>
+            </div>
+        </div>
+
+        <div class="row  ms-1  gap-3">
+            <div class="row mt-3 flex-column gap-1">
+                <div class="col fw-bold">
+                    {{patientName}}
+                </div>
+                <div class="col">
+                    <span class="text-info fw-bold fs-4"></span>
+                    <span class="fs-5">{{this.confirmationNumber? this.confirmationNumber :
+                        "Confirmation Number"}}</span>
+                </div>
+                <div class="col">
+                    Click here for any files that you or your doctors of your subsequents requestors have attached for
+                    you to review.
+                </div>
+
+                <div class="col ">
+                    
+                </div>
+
+                <div class="col d-flex justify-content-between align-content-center mt-5">
+                    <span class="align-self-center fw-bold">Documents</span>
+                    <p-button [outlined]="true" severity="info">
+                    <span class="d-none d-md-block">Download All</span>
+                    <i class="bi bi-cloud-arrow-down fs-4 d-md-none"></i>
+                </p-button>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-12">
+                    <div class="table-responsive d-lg-block d-none">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col"> 
+                                        <p-checkbox [binary]="true" [styleClass]="'headerCheckBox'" variant="filled" ></p-checkbox>
+                                     </th>
+                                    <th scope="col">Uploader</th>
+                                    <th scope="col" class="text-wrap">Upload Date <i class="bi bi-arrow-up"></i> </th>
+                                    <th scope="col">Actions </th>
+                                </tr>
+                            </thead>
+
+                            <tbody class="">
+                                <tr *ngFor="let item of documentList" class="DocumentRow align-items-center">
+                                    <td>
+                                        <p-checkbox [styleClass]="'rowCheckBox'" [binary]="true" variant="filled" ></p-checkbox>
+                                        <i class="ms-2 bi bi-file-earmark-image fs-5"></i>
+                                        <span class="">  {{item.fileName.split("/")[item.fileName.split("/").length - 1] }}</span>
+                                    </td>
+                                    <td>{{item.uploader}}</td>
+                                    <td>{{ item.createdDate | date:'d MMMM yyyy' }}</td>
+                                    <td>Action</td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="">
+        <app-submitrequest-footer></app-submitrequest-footer>
+    </div>
+
+</div>
