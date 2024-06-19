@@ -1,0 +1,303 @@
+<div id="submitrequestscreen" class="container-fluid d-flex flex-column justify-content-between min-vh-100 ">
+
+    <div class="row row-cols-1 ">
+        <app-dashboard-header></app-dashboard-header>
+        <div class="row mt-3 mb-3 justify-content-end">
+            <div class="col-1">
+                <p-button label="Back" [outlined]="true" severity="info" routerLink="/patient/dashboard" />
+            </div>
+        </div>
+    </div>
+
+    <div class="container mb-3 shadow-lg p-3 bg-white rounded-3 mt-3">
+
+        <form enctype="multipart/form-data" [formGroup]="PatientRequestForm" (submit)="PatientRequestSubmit()">
+
+            <div class="row mt-3">
+                <p class="fs-4 fw-semibold">Patient Information</p>
+
+                <div class="row">
+                    <div class="col mt-3">
+                        <p-floatLabel>
+                            <textarea pInputText placeholder="" id="Symptoms" style="height: 100px"
+                                formControlName="Symptoms"></textarea>
+                            <label class="" for="Symptoms">
+                                <p style="white-space: wrap;">
+                                    Enter Brief Details Of
+                                    Symptoms(Optional)
+                                </p>
+                            </label>
+                        </p-floatLabel>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mt-3">
+                        <p-floatLabel>
+                            <input pInputText type="text" id="fname" formControlName="FirstName" [ngClass]="{
+                                'ng-dirty':
+                                PatientRequestForm.get('FirstName')?.invalid &&
+                                  (PatientRequestForm.get('FirstName')?.dirty ||
+                                    PatientRequestForm.get('FirstName')?.touched),
+                                'isValid':
+                                  PatientRequestForm.get('FirstName')?.valid &&
+                                  (PatientRequestForm.get('FirstName')?.dirty || PatientRequestForm.get('FirstName')?.touched)
+                              }">
+                            <label for="fname">First Name</label>
+                        </p-floatLabel>
+                        <span
+                            *ngIf="PatientRequestForm.get('FirstName')?.touched && PatientRequestForm.get('FirstName')?.hasError('required')"
+                            class="errorMessage">
+                            FirstName is required.
+                        </span>
+                        <span
+                            *ngIf="PatientRequestForm.get('FirstName')?.hasError('maxlength') || PatientRequestForm.get('FirstName')?.hasError('minlength')"
+                            class="errorMessage">
+                            FirstName should be between 3-10 characters.
+                        </span>
+                    </div>
+                    <div class="col-md-6 mt-3">
+                        <p-floatLabel>
+                            <input pInputText type="text" id="lname" formControlName="LastName" [ngClass]="{
+                                'ng-dirty':
+                                PatientRequestForm.get('LastName')?.invalid &&
+                                  (PatientRequestForm.get('LastName')?.dirty ||
+                                    PatientRequestForm.get('LastName')?.touched),
+                                'isValid':
+                                  PatientRequestForm.get('LastName')?.valid &&
+                                  (PatientRequestForm.get('LastName')?.dirty || PatientRequestForm.get('LastName')?.touched)
+                              }">
+                            <label for="lname">Last Name</label>
+                        </p-floatLabel>
+                        <span
+                            *ngIf="PatientRequestForm.get('LastName')?.touched && PatientRequestForm.get('LastName')?.hasError('required')"
+                            class="errorMessage">
+                            LastName is required.
+                        </span>
+                        <span
+                            *ngIf="PatientRequestForm.get('LastName')?.hasError('maxlength') || PatientRequestForm.get('LastName')?.hasError('minlength')"
+                            class="errorMessage">
+                            LastName should be between 3-10 characters.
+                        </span>
+                    </div>
+
+                    <div class="col-md-6 mt-3">
+
+                        <p-calendar class="" formControlName="Bdate" [iconDisplay]="'input'" [showIcon]="true"
+                            inputId="Bdate" [ngClass]="{
+                            'ng-dirty':
+                            PatientRequestForm.get('Bdate')?.invalid &&
+                              (PatientRequestForm.get('Bdate')?.dirty ||
+                                PatientRequestForm.get('Bdate')?.touched),
+                            'isValid':
+                              PatientRequestForm.get('Bdate')?.valid &&
+                              (PatientRequestForm.get('Bdate')?.dirty || PatientRequestForm.get('Bdate')?.touched)
+                          }" />
+                        <span
+                            *ngIf="PatientRequestForm.get('Bdate')?.touched && PatientRequestForm.get('Bdate')?.hasError('required')"
+                            class="errorMessage">
+                            BirthDate is required.
+                        </span>
+                        <span *ngIf="PatientRequestForm.get('Bdate')?.hasError('futureDate')" class="errorMessage">
+                            BirthDate can't be in future.
+                        </span>
+                        <span *ngIf="PatientRequestForm.get('Bdate')?.hasError('invalidAge')" class="errorMessage">
+                            Age between 18-50 are allowed.
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row mt-3">
+
+                <p class="fs-4 fw-semibold">Patient Contact Information</p>
+
+                <div class="row">
+                    <div class="col-md-6 mt-3">
+                        <p-floatLabel>
+                            <input pInputText id="email" class="" formControlName="Email" [readOnly]="true" [ngClass]="{
+                                    'ng-dirty':
+                                      PatientRequestForm.get('Email')?.invalid &&
+                                      (PatientRequestForm.get('Email')?.dirty ||
+                                        PatientRequestForm.get('Email')?.touched),
+                                    'isValid':
+                                      PatientRequestForm.get('Email')?.valid &&
+                                      (PatientRequestForm.get('Email')?.dirty || PatientRequestForm.get('Email')?.touched)
+                                  }" />
+                            <label for="email">
+                                Email
+                            </label>
+                        </p-floatLabel>
+
+                        <span
+                            *ngIf="PatientRequestForm.get('Email')?.touched && PatientRequestForm.get('Email')?.hasError('required')"
+                            class="errorMessage">
+                            Email is required.
+                        </span>
+                        <span *ngIf="PatientRequestForm.get('Email')?.hasError('invalidEmail')" class="errorMessage">
+                            Please enter a valid email address
+                        </span>
+                    </div>
+
+                    <div class="col-md-6 mt-3">
+                        <p-floatLabel>
+                            <input pInputText type="text" id="fname" formControlName="Mobile" [ngClass]="{
+                                'ng-dirty':
+                                PatientRequestForm.get('Mobile')?.invalid &&
+                                  (PatientRequestForm.get('Mobile')?.dirty ||
+                                    PatientRequestForm.get('Mobile')?.touched),
+                                'isValid':
+                                  PatientRequestForm.get('Mobile')?.valid &&
+                                  (PatientRequestForm.get('Mobile')?.dirty || PatientRequestForm.get('Mobile')?.touched)
+                              }">
+                            <label for="fname">Mobile Number</label>
+                        </p-floatLabel>
+                        <span
+                            *ngIf="PatientRequestForm.get('Mobile')?.touched && PatientRequestForm.get('Mobile')?.hasError('required')"
+                            class="errorMessage">
+                            Mobile Number is required.
+                        </span>
+                        <span
+                            *ngIf="PatientRequestForm.get('Mobile')?.hasError('maxlength') || PatientRequestForm.get('Mobile')?.hasError('minlength')"
+                            class="errorMessage">
+                            Mobile Number should be of 10 digits.
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+
+                <p class="fs-4 fw-semibold">Patient Location</p>
+                <div class="row">
+                    <div class="col-md-6 mt-3">
+                        <p-floatLabel>
+                            <input pInputText type="text" id="street" formControlName="Street" [ngClass]="{
+                                'ng-dirty':
+                                PatientRequestForm.get('Street')?.invalid &&
+                                  (PatientRequestForm.get('Street')?.dirty ||
+                                    PatientRequestForm.get('Street')?.touched),
+                                'isValid':
+                                  PatientRequestForm.get('Street')?.valid &&
+                                  (PatientRequestForm.get('Street')?.dirty || PatientRequestForm.get('Street')?.touched)
+                              }">
+                            <label for="street">Street</label>
+                        </p-floatLabel>
+                        <span
+                            *ngIf="PatientRequestForm.get('Street')?.touched && PatientRequestForm.get('Street')?.hasError('required')"
+                            class="errorMessage">
+                            Street is required.
+                        </span>
+                    </div>
+                    <div class="col-md-6 mt-3">
+                        <p-floatLabel>
+                            <input pInputText type="text" id="city" placeholder="" formControlName="City" [ngClass]="{
+                                'ng-dirty':
+                                PatientRequestForm.get('City')?.invalid &&
+                                  (PatientRequestForm.get('City')?.dirty ||
+                                    PatientRequestForm.get('City')?.touched),
+                                'isValid':
+                                  PatientRequestForm.get('City')?.valid &&
+                                  (PatientRequestForm.get('City')?.dirty || PatientRequestForm.get('City')?.touched)
+                              }">
+                            <label for="city">City </label>
+                        </p-floatLabel>
+                        <span
+                            *ngIf="PatientRequestForm.get('City')?.touched && PatientRequestForm.get('City')?.hasError('required')"
+                            class="errorMessage">
+                            City is required.
+                        </span>
+                    </div>
+
+                    <div class="col-md-6 mt-3">
+
+                        <p-dropdown [options]="regionList" optionValue="regionId" formControlName="regionId"
+                            placeholder="Select State" optionLabel="name" [ngClass]="{
+                                    'ng-dirty':
+                                    PatientRequestForm.get('regionId')?.invalid &&
+                                      (PatientRequestForm.get('regionId')?.dirty ||
+                                        PatientRequestForm.get('regionId')?.touched),
+                                    'isValid':
+                                      PatientRequestForm.get('regionId')?.valid &&
+                                      (PatientRequestForm.get('regionId')?.dirty || PatientRequestForm.get('regionId')?.touched)
+                                  }" />
+                        <span
+                            *ngIf="PatientRequestForm.get('regionId')?.touched && PatientRequestForm.get('regionId')?.hasError('required')"
+                            class="errorMessage">
+                            Region is required.
+                        </span>
+                    </div>
+                    <div class="col-md-6 mt-3">
+                        <p-floatLabel>
+                            <input pInputText type="number" id="zipcode" placeholder="" formControlName="Zipcode"
+                                [ngClass]="{
+                                'ng-dirty':
+                                PatientRequestForm.get('Zipcode')?.invalid &&
+                                  (PatientRequestForm.get('Zipcode')?.dirty ||
+                                    PatientRequestForm.get('Zipcode')?.touched),
+                                'isValid':
+                                  PatientRequestForm.get('Zipcode')?.valid &&
+                                  (PatientRequestForm.get('Zipcode')?.dirty || PatientRequestForm.get('Zipcode')?.touched)
+                              }">
+                            <label for="zipcode">Zip Code </label>
+                        </p-floatLabel>
+                        <span
+                            *ngIf="PatientRequestForm.get('Zipcode')?.touched && PatientRequestForm.get('Zipcode')?.hasError('required')"
+                            class="errorMessage">
+                            ZipCode is required.
+                        </span>
+                    </div>
+                    <div class="col-md-6 mt-3">
+                        <p-floatLabel>
+                            <input pInputText type="text" id="room" placeholder="" formControlName="Room" [ngClass]="{
+                                'ng-dirty':
+                                PatientRequestForm.get('Room')?.invalid &&
+                                  (PatientRequestForm.get('Room')?.dirty ||
+                                    PatientRequestForm.get('Room')?.touched),
+                              }">
+                            <label for="room">Room(Optional)</label>
+                        </p-floatLabel>
+                        <span
+                            *ngIf="PatientRequestForm.get('Room')?.touched && PatientRequestForm.get('Room')?.hasError('maxlength')"
+                            class="errorMessage">
+                            Maximum 20 characters Allowed
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <p class="fs-4 fw-semibold">(Optional) Upload Photo or Document</p>
+                <div class="row">
+                    <div class="col">
+                        <p-toast />
+                        <p-fileUpload name="File[]" [customUpload]="true" [showCancelButton]="false" [showUploadButton]="false"
+                            (onSelect)="uploadDocument($event)" [multiple]="true" accept="image/*" maxFileSize="1000000">
+                            <ng-template pTemplate="content">
+                                <ul *ngIf="uploadedFiles.length">
+                                    <li *ngFor="let file of uploadedFiles">
+                                        {{ file.name }} - {{ file.size }} bytes
+                                    </li>
+                                </ul>
+                            </ng-template>
+                        </p-fileUpload>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3 mb-3">
+                <div class=" d-flex justify-content-end mt-4">
+                    <p-button label="Submit" [rounded]="true" type="submit" id="submit" severity="info" />
+                    <p-button label="Cancel" class="ms-2 " [rounded]="true" [outlined]="true" type="reset"
+                        severity="info" />
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="row">
+        <app-submitrequest-footer></app-submitrequest-footer>
+    </div>
+
+</div>

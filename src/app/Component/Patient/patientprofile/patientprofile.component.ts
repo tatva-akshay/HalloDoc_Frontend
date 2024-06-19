@@ -98,7 +98,7 @@ export class PatientprofileComponent {
       }, error: (error: any) => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.toString() });
       }
-    });
+    }); 
   }
 
   resetForm() {

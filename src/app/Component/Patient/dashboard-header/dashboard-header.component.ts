@@ -6,6 +6,7 @@ import { ButtonModule } from 'primeng/button';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { Sidebar } from 'primeng/sidebar';
 import { SidebarModule } from 'primeng/sidebar';
+import { AuthService } from '../../../Service/Patient/authservice.service';
 
 @Component({
   selector: 'app-dashboard-header',
@@ -15,15 +16,17 @@ import { SidebarModule } from 'primeng/sidebar';
     TabMenuModule,
     SidebarModule
   ],
+  providers:[AuthService],
   templateUrl: './dashboard-header.component.html',
   styleUrl: './dashboard-header.component.scss'
 })
 export class DashboardHeaderComponent {
   constructor(
     private router: Router,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private authService: AuthService
   ) { }
-  userEmail: string = localStorage.getItem("email")!;
+  userEmail: string = this.authService.getUserEmail()!;
 
   items: MenuItem[] | undefined;
 

@@ -110,11 +110,21 @@ export class OtherRequestComponent {
     console.log(otherRequestData);
 
     this.patientBackendCallService.otherRequset(otherRequestData).subscribe((res:any)=>{
-      console.log(res,"ressponse");
+      if (!res.isSuccess) {
+        if (res.httpStatusCode == 400) {
+          this.messageService.add({ severity: 'error', detail: res.error.toString(), life: 3000 });
+        }
+      }
+      else if (res.isSuccess) {
+        this.messageService.add({ severity: 'success', detail: 'Request Created!', life: 3000 });
+        this.router.navigateByUrl("")
+      }
+      else {
+        this.messageService.add({ severity: 'error', detail: 'Internal error!', life: 3000 });
+      }
     })
     console.log(this.otherRequestForm.valid);
-    localStorage.removeItem("requestType");
-    this.router.navigateByUrl("")
+    this.router.navigateByUrl("");
   }
   
 }

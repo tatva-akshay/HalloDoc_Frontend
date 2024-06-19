@@ -7,6 +7,8 @@ import { ValidateEmailDTO } from '../../Model/Interface/Patient/validate-email-d
 import { PatientDetails } from '../../Model/Interface/Patient/patient-details';
 import { OtherRequestDTO } from '../../Model/Interface/Patient/other-request-dto';
 import { PatientProfile } from '../../Model/Interface/Patient/patient-profile';
+import { DownloadRWF } from '../../Model/Interface/Patient/download-rwf';
+import { debug } from 'console';
 
 @Injectable({
   providedIn: 'root'
@@ -123,6 +125,42 @@ export class PatientBackendCallService {
 
   getViewDocument(requestId:number): Observable<APIResponse>{
     return this.http.get<APIResponse>(`${this.apiUrl}/api/Patient/SingleRequestView?requestId=${requestId}`)
+    .pipe(
+      map((response) => {
+        return response;
+      })
+    );
+  } 
+
+  downloadDocument(downloadDocument:DownloadRWF): Observable<APIResponse>{
+    return this.http.post<APIResponse>(`${this.apiUrl}/api/Patient/DownloadDocuments`,downloadDocument)
+    .pipe(
+      map((response) => {
+        return response;
+      })
+    );
+  } 
+
+  deleteDocument(requestWiseFileId:number): Observable<APIResponse>{
+    return this.http.get<APIResponse>(`${this.apiUrl}/api/Patient/DeleteDocument?requestWiseFileId=${requestWiseFileId}`)
+    .pipe(
+      map((response) => {
+        return response;
+      })
+    );
+  } 
+
+  formeRequest(patientDetails: PatientDetails): Observable<APIResponse>{
+    return this.http.post<APIResponse>(`${this.apiUrl}/api/Patient/ForMeRequest`,patientDetails)
+    .pipe(
+      map((response) => {
+        return response;
+      })
+    );
+  } 
+
+  someoneElseRequest(otherRequestDetails: OtherRequestDTO): Observable<APIResponse>{
+    return this.http.post<APIResponse>(`${this.apiUrl}/api/Patient/ForSomeoneElseRequest`,otherRequestDetails)
     .pipe(
       map((response) => {
         return response;

@@ -1,0 +1,327 @@
+<div id="submitrequestscreen" class="container-fluid d-flex flex-column justify-content-between min-vh-100 ">
+
+    <div class="row row-cols-1 ">
+        <app-dashboard-header></app-dashboard-header>
+        <div class="row mt-3 mb-3 justify-content-end">
+            <div class="col-1">
+                <p-button label="Back" [outlined]="true" severity="info" routerLink="/patient/dashboard" />
+            </div>
+        </div>
+    </div>
+
+    <div class="container mb-3 shadow-lg p-3 bg-white rounded-3 mt-3">
+
+        <form enctype="multipart/form-data" [formGroup]="someoneElseRequest" (submit)="RequestSubmit()">
+
+            <div class="row mt-3">
+                <p class="fs-4 fw-semibold">Patient Information</p>
+
+                <div class="row">
+                    <div class="col mt-3">
+                        <p-floatLabel>
+                            <textarea pInputText placeholder="" id="Symptoms" style="height: 100px"
+                                formControlName="Symptoms"></textarea>
+                            <label class="" for="Symptoms">
+                                <p style="white-space: wrap;">
+                                    Enter Brief Details Of
+                                    Symptoms(Optional)
+                                </p>
+                            </label>
+                        </p-floatLabel>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mt-3">
+                        <p-floatLabel>
+                            <input pInputText type="text" id="fname" formControlName="FirstName" [ngClass]="{
+                                'ng-dirty':
+                                someoneElseRequest.get('FirstName')?.invalid &&
+                                  (someoneElseRequest.get('FirstName')?.dirty ||
+                                    someoneElseRequest.get('FirstName')?.touched),
+                                'isValid':
+                                  someoneElseRequest.get('FirstName')?.valid &&
+                                  (someoneElseRequest.get('FirstName')?.dirty || someoneElseRequest.get('FirstName')?.touched)
+                              }">
+                            <label for="fname">First Name</label>
+                        </p-floatLabel>
+                        <span
+                            *ngIf="someoneElseRequest.get('FirstName')?.touched && someoneElseRequest.get('FirstName')?.hasError('required')"
+                            class="errorMessage">
+                            FirstName is required.
+                        </span>
+                        <span
+                            *ngIf="someoneElseRequest.get('FirstName')?.hasError('maxlength') || someoneElseRequest.get('FirstName')?.hasError('minlength')"
+                            class="errorMessage">
+                            FirstName should be between 3-10 characters.
+                        </span>
+                    </div>
+                    <div class="col-md-6 mt-3">
+                        <p-floatLabel>
+                            <input pInputText type="text" id="lname" formControlName="LastName" [ngClass]="{
+                                'ng-dirty':
+                                someoneElseRequest.get('LastName')?.invalid &&
+                                  (someoneElseRequest.get('LastName')?.dirty ||
+                                    someoneElseRequest.get('LastName')?.touched),
+                                'isValid':
+                                  someoneElseRequest.get('LastName')?.valid &&
+                                  (someoneElseRequest.get('LastName')?.dirty || someoneElseRequest.get('LastName')?.touched)
+                              }">
+                            <label for="lname">Last Name</label>
+                        </p-floatLabel>
+                        <span
+                            *ngIf="someoneElseRequest.get('LastName')?.touched && someoneElseRequest.get('LastName')?.hasError('required')"
+                            class="errorMessage">
+                            LastName is required.
+                        </span>
+                        <span
+                            *ngIf="someoneElseRequest.get('LastName')?.hasError('maxlength') || someoneElseRequest.get('LastName')?.hasError('minlength')"
+                            class="errorMessage">
+                            LastName should be between 3-10 characters.
+                        </span>
+                    </div>
+
+                    <div class="col-md-6 mt-3">
+
+                        <p-calendar class="" formControlName="Bdate" [iconDisplay]="'input'" [showIcon]="true"
+                            inputId="Bdate" [ngClass]="{
+                            'ng-dirty':
+                            someoneElseRequest.get('Bdate')?.invalid &&
+                              (someoneElseRequest.get('Bdate')?.dirty ||
+                                someoneElseRequest.get('Bdate')?.touched),
+                            'isValid':
+                              someoneElseRequest.get('Bdate')?.valid &&
+                              (someoneElseRequest.get('Bdate')?.dirty || someoneElseRequest.get('Bdate')?.touched)
+                          }" />
+                        <span
+                            *ngIf="someoneElseRequest.get('Bdate')?.touched && someoneElseRequest.get('Bdate')?.hasError('required')"
+                            class="errorMessage">
+                            BirthDate is required.
+                        </span>
+                        <span *ngIf="someoneElseRequest.get('Bdate')?.hasError('futureDate')" class="errorMessage">
+                            BirthDate can't be in future.
+                        </span>
+                        <span *ngIf="someoneElseRequest.get('Bdate')?.hasError('invalidAge')" class="errorMessage">
+                            Age between 18-50 are allowed.
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row mt-3">
+
+                <p class="fs-4 fw-semibold">Patient Contact Information</p>
+
+                <div class="row">
+                    <div class="col-md-6 mt-3">
+                        <p-floatLabel>
+                            <input pInputText id="email" class="" formControlName="Email" [ngClass]="{
+                                    'ng-dirty':
+                                      someoneElseRequest.get('Email')?.invalid &&
+                                      (someoneElseRequest.get('Email')?.dirty ||
+                                        someoneElseRequest.get('Email')?.touched),
+                                    'isValid':
+                                      someoneElseRequest.get('Email')?.valid &&
+                                      (someoneElseRequest.get('Email')?.dirty || someoneElseRequest.get('Email')?.touched)
+                                  }" />
+                            <label for="email">
+                                Email
+                            </label>
+                        </p-floatLabel>
+
+                        <span
+                            *ngIf="someoneElseRequest.get('Email')?.touched && someoneElseRequest.get('Email')?.hasError('required')"
+                            class="errorMessage">
+                            Email is required.
+                        </span>
+                        <span *ngIf="someoneElseRequest.get('Email')?.hasError('invalidEmail')" class="errorMessage">
+                            Please enter a valid email address
+                        </span>
+                    </div>
+
+                    <div class="col-md-6 mt-3">
+                        <p-floatLabel>
+                            <input pInputText type="text" id="fname" formControlName="Mobile" [ngClass]="{
+                                'ng-dirty':
+                                someoneElseRequest.get('Mobile')?.invalid &&
+                                  (someoneElseRequest.get('Mobile')?.dirty ||
+                                    someoneElseRequest.get('Mobile')?.touched),
+                              }">
+                            <label for="fname">Mobile Number</label>
+                        </p-floatLabel>
+                        <span
+                            *ngIf="someoneElseRequest.get('Mobile')?.touched && someoneElseRequest.get('Mobile')?.hasError('required')"
+                            class="errorMessage">
+                            Mobile Number is Required
+                        </span>
+                        <span
+                            *ngIf="someoneElseRequest.get('Mobile')?.hasError('maxlength') || someoneElseRequest.get('Mobile')?.hasError('minlength')"
+                            class="errorMessage">
+                            Mobile Number should be of 10 digits.
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+
+                <p class="fs-4 fw-semibold">Patient Location</p>
+                <div class="row">
+                    <div class="col-md-6 mt-3">
+                        <p-floatLabel>
+                            <input pInputText type="text" id="street" formControlName="Street" [ngClass]="{
+                                'ng-dirty':
+                                someoneElseRequest.get('Street')?.invalid &&
+                                  (someoneElseRequest.get('Street')?.dirty ||
+                                    someoneElseRequest.get('Street')?.touched),
+                                'isValid':
+                                  someoneElseRequest.get('Street')?.valid &&
+                                  (someoneElseRequest.get('Street')?.dirty || someoneElseRequest.get('Street')?.touched)
+                              }">
+                            <label for="street">Street</label>
+                        </p-floatLabel>
+                        <span
+                            *ngIf="someoneElseRequest.get('Street')?.touched && someoneElseRequest.get('Street')?.hasError('required')"
+                            class="errorMessage">
+                            Street is required.
+                        </span>
+                    </div>
+                    <div class="col-md-6 mt-3">
+                        <p-floatLabel>
+                            <input pInputText type="text" id="city" placeholder="" formControlName="City" [ngClass]="{
+                                'ng-dirty':
+                                someoneElseRequest.get('City')?.invalid &&
+                                  (someoneElseRequest.get('City')?.dirty ||
+                                    someoneElseRequest.get('City')?.touched),
+                                'isValid':
+                                  someoneElseRequest.get('City')?.valid &&
+                                  (someoneElseRequest.get('City')?.dirty || someoneElseRequest.get('City')?.touched)
+                              }">
+                            <label for="city">City </label>
+                        </p-floatLabel>
+                        <span
+                            *ngIf="someoneElseRequest.get('City')?.touched && someoneElseRequest.get('City')?.hasError('required')"
+                            class="errorMessage">
+                            City is required.
+                        </span>
+                    </div>
+
+                    <div class="col-md-6 mt-3">
+
+                        <p-dropdown [options]="regionList" optionValue="regionId" formControlName="regionId"
+                            placeholder="Select State" optionLabel="name" [ngClass]="{
+                                    'ng-dirty':
+                                    someoneElseRequest.get('regionId')?.invalid &&
+                                      (someoneElseRequest.get('regionId')?.dirty ||
+                                        someoneElseRequest.get('regionId')?.touched),
+                                    'isValid':
+                                      someoneElseRequest.get('regionId')?.valid &&
+                                      (someoneElseRequest.get('regionId')?.dirty || someoneElseRequest.get('regionId')?.touched)
+                                  }" />
+                        <span
+                            *ngIf="someoneElseRequest.get('regionId')?.touched && someoneElseRequest.get('regionId')?.hasError('required')"
+                            class="errorMessage">
+                            Region is required.
+                        </span>
+                    </div>
+                    <div class="col-md-6 mt-3">
+                        <p-floatLabel>
+                            <input pInputText type="number" id="zipcode" placeholder="" formControlName="Zipcode"
+                                [ngClass]="{
+                                'ng-dirty':
+                                someoneElseRequest.get('Zipcode')?.invalid &&
+                                  (someoneElseRequest.get('Zipcode')?.dirty ||
+                                    someoneElseRequest.get('Zipcode')?.touched),
+                                'isValid':
+                                  someoneElseRequest.get('Zipcode')?.valid &&
+                                  (someoneElseRequest.get('Zipcode')?.dirty || someoneElseRequest.get('Zipcode')?.touched)
+                              }">
+                            <label for="zipcode">Zip Code </label>
+                        </p-floatLabel>
+                        <span
+                            *ngIf="someoneElseRequest.get('Zipcode')?.touched && someoneElseRequest.get('Zipcode')?.hasError('required')"
+                            class="errorMessage">
+                            ZipCode is required.
+                        </span>
+                    </div>
+                    <div class="col-md-6 mt-3">
+                        <p-floatLabel>
+                            <input pInputText type="text" id="room" placeholder="" formControlName="Room" [ngClass]="{
+                                'ng-dirty':
+                                someoneElseRequest.get('Room')?.invalid &&
+                                  (someoneElseRequest.get('Room')?.dirty ||
+                                    someoneElseRequest.get('Room')?.touched),
+                              }">
+                            <label for="room">Room(Optional)</label>
+                        </p-floatLabel>
+                        <span
+                            *ngIf="someoneElseRequest.get('Room')?.touched && someoneElseRequest.get('Room')?.hasError('maxlength')"
+                            class="errorMessage">
+                            Maximum 20 characters Allowed
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+
+                <p class="fs-4 fw-semibold">Relation</p>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <p-floatLabel>
+                            <input pInputText type="text" id="relation" placeholder="" formControlName="RelationName" >
+                            <label for="relation">Relation</label>
+                        </p-floatLabel> 
+                    </div>
+                </div>
+
+            </div>
+            <div class="row mt-3">
+
+                <p class="fs-4 fw-semibold">(Optional) Upload Photo or Document</p>
+
+                <div class="row">
+                    <div class="col">
+
+                        <!-- <div class="input-group mb-3">
+                            <input type="file" class="form-control" placeholder=""
+                                aria-label="Recipient's username" aria-describedby="button-addon2" formControlName="Files" multiple>
+                            <button class="btn btn-info text-light" type="button" id="button-addon2">Upload</button>
+                        </div> -->
+
+                        <!-- <div class="input-group mb-3">
+                            <span class="position-absolute" style="left: 0; top: 10px;" id="message">
+                                No item
+                                selected
+                            </span>
+                            <button class="btn btn-info text-light position-absolute rounded-3"
+                                style="right: 0; top: 5px;" type="button" id="button-addon2">
+                                <i class="bi bi-cloud-arrow-up me-1"></i>Upload
+                            </button>
+                            <input type="file" class="form-control file-select position-absolute border" id="my-file"
+                                style="width: 100%;" multiple formControlName="File">     
+                        </div> -->
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row mt-3 mb-3">
+                <div class=" d-flex justify-content-end mt-4">
+                    <p-button label="Submit" [rounded]="true" type="submit" id="submit" severity="info" (onClick)="RequestSubmit()" />
+                    <p-button label="Cancel" class="ms-2 " [rounded]="true" [outlined]="true" type="reset"
+                        severity="info" />
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+
+    <div class="row">
+        <app-submitrequest-footer></app-submitrequest-footer>
+    </div>
+
+</div>

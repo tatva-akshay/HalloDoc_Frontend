@@ -84,10 +84,10 @@ export class PatientDashboardComponent {
 
   submitRequest(){
     if(this.forMeRequest){
-      
+      this.router.navigateByUrl('/patient/formerequest');
     }
     else{
-
+      this.router.navigateByUrl('/patient/someoneelserequest');
     }
   }
 }

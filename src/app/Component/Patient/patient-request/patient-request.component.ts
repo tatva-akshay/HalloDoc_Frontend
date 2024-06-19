@@ -154,18 +154,17 @@ export class PatientRequestComponent {
       return;
     }
     this.patientBackendCallService.createPatientRequest(patientDetails).subscribe((res: any) => {
-      console.log(res);
       if (!res.isSuccess) {
         if (res.httpStatusCode == 400) {
-          alert(res.error)
+          this.messageService.add({ severity: 'error', detail: res.error.toString(), life: 3000 });
         }
       }
       else if (res.isSuccess) {
+        this.messageService.add({ severity: 'success', detail: 'Request Created!', life: 3000 });
         this.router.navigateByUrl("patient/login")
-        alert("request Created")
       }
       else {
-        alert("Internal error!")
+        this.messageService.add({ severity: 'error', detail: 'Internal error!', life: 3000 });
       }
     });
   }

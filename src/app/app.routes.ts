@@ -13,6 +13,8 @@ import { OtherRequestComponent } from './Component/Patient/other-request/other-r
 import { resetpasswordGuardGuard } from './Guards/resetpassword-guard.guard';
 import { PatientprofileComponent } from './Component/Patient/patientprofile/patientprofile.component';
 import { ViewDocumentComponent } from './Component/Patient/view-document/view-document.component';
+import { FormeRequestComponent } from './Component/Patient/forme-request/forme-request.component';
+import { SomeoneElseRequestComponent } from './Component/Patient/someone-else-request/someone-else-request.component';
 
 export const routes: Routes = [
     {path:"", component:PatientSiteComponent},
@@ -26,4 +28,6 @@ export const routes: Routes = [
     {path:"patient/dashboard", component:PatientDashboardComponent, canActivate: [publicRouteGuard]},
     {path:"patient/profile", component:PatientprofileComponent, canActivate: [publicRouteGuard]},
     {path:"patient/viewdocument", component:ViewDocumentComponent, canActivate: [publicRouteGuard]},
+    {path:"patient/formerequest", component:FormeRequestComponent, canActivate: [publicRouteGuard]},
+    {path:"patient/someoneelserequest", component:SomeoneElseRequestComponent, canActivate: [publicRouteGuard]},
 ];

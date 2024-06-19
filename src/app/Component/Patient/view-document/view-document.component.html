@@ -1,3 +1,5 @@
+<p-toast />
+<p-confirmDialog />
 <div id="body1" class=" border d-flex flex-column justify-content-between min-vh-100">
 
     <div class="">
@@ -33,15 +35,18 @@
                 </div>
 
                 <div class="col ">
-                    
+
                 </div>
 
                 <div class="col d-flex justify-content-between align-content-center mt-5">
+
                     <span class="align-self-center fw-bold">Documents</span>
-                    <p-button [outlined]="true" severity="info">
-                    <span class="d-none d-md-block">Download All</span>
-                    <i class="bi bi-cloud-arrow-down fs-4 d-md-none"></i>
-                </p-button>
+
+                    <p-button [outlined]="true" severity="info" (onClick)="DownloadAllDocument() ">
+                        <span class="d-none d-md-block">Download All</span>
+                        <i class="bi bi-cloud-arrow-down fs-4 d-md-none"></i>
+                    </p-button>
+
                 </div>
             </div>
 
@@ -52,9 +57,10 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col"> 
-                                        <p-checkbox [binary]="true" [styleClass]="'headerCheckBox'" variant="filled" ></p-checkbox>
-                                     </th>
+                                    <th scope="col">
+                                        <p-checkbox #headerCheckBox [binary]="true" [(ngModel)]="allChecked"
+                                            (onChange)="onHeaderCheckBoxChange($event)" variant="filled"></p-checkbox>
+                                    </th>
                                     <th scope="col">Uploader</th>
                                     <th scope="col" class="text-wrap">Upload Date <i class="bi bi-arrow-up"></i> </th>
                                     <th scope="col">Actions </th>
@@ -62,25 +68,39 @@
                             </thead>
 
                             <tbody class="">
-                                <tr *ngFor="let item of documentList" class="DocumentRow align-items-center">
+                                <tr *ngFor="let item of documentList;" class=" align-items-center">
                                     <td>
-                                        <p-checkbox [styleClass]="'rowCheckBox'" [binary]="true" variant="filled" ></p-checkbox>
+                                        <p-checkbox #rowCheckBox [(ngModel)]="selectedDocuments"
+                                            [value]="item.requestWiseFileId"
+                                            (onChange)="onRowCheckBoxChange($event, item)"
+                                            variant="filled"></p-checkbox>
                                         <i class="ms-2 bi bi-file-earmark-image fs-5"></i>
-                                        <span class="">  {{item.fileName.split("/")[item.fileName.split("/").length - 1] }}</span>
+                                        <span class=""> {{item.fileName.split("/")[item.fileName.split("/").length - 1]
+                                            }}</span>
                                     </td>
                                     <td>{{item.uploader}}</td>
                                     <td>{{ item.createdDate | date:'d MMMM yyyy' }}</td>
-                                    <td>Action</td>
+                                    <td>
+                                        <div class="d-flex">
+                                            <p-button [outlined]="true" severity="info"
+                                                (onClick)="DownloadSingleDocument(item)">
+                                                <span class="d-none d-md-block">Download</span>
+                                                <i class="bi bi-cloud-arrow-down fs-4 d-md-none"></i>
+                                            </p-button>
+                                           
+                                            <p-button [outlined]="true" [styleClass]="'ms-2'" severity="info" (onClick)="DeleteDocument($event, item)">
+                                                <span class="d-none d-md-block">Delete</span>
+                                                <i class="bi bi-trash fs-4 d-md-none"></i>
+                                            </p-button>
+                                        </div>
+                                    </td>
                                 </tr>
                             </tbody>
-
                         </table>
                     </div>
                 </div>
             </div>
-
         </div>
-
     </div>
 
     <div class="">
