@@ -43,7 +43,7 @@ import { OtherRequestDTO } from '../../../Model/Interface/Patient/other-request-
   ],
   providers: [PatientBackendCallService],
   templateUrl: './someone-else-request.component.html',
-  styleUrl: './someone-else-request.component.scss'
+  styleUrl: './someone-else-request.component.scss',
 })
 export class SomeoneElseRequestComponent {
   constructor(

@@ -60,7 +60,7 @@
                         </span>
                     </div>
                     <div class="col-md-6 mt-3">
-                        <p-calendar class="" formControlName="Bdate" [iconDisplay]="'input'" [showIcon]="true"
+                        <p-calendar class="" formControlName="Bdate" [iconDisplay]="'input'" [showIcon]="true" [readonlyInput]="true"
                             inputId="Bdate" [ngClass]="{
                             'ng-dirty':
                             patientProfileForm.get('Bdate')?.invalid &&
@@ -163,7 +163,7 @@
                                   (patientProfileForm.get('Street')?.dirty ||
                                     patientProfileForm.get('Street')?.touched),
                               }">
-                            <label for="mobile">Mobile Number</label>
+                            <label for="street">Street</label>
                         </p-floatLabel>
                         <span
                             *ngIf="patientProfileForm.get('Street')?.touched && patientProfileForm.get('Street')?.hasError('required')"
@@ -180,7 +180,7 @@
                                   (patientProfileForm.get('City')?.dirty ||
                                     patientProfileForm.get('City')?.touched),
                               }">
-                            <label for="mobile">Mobile Number</label>
+                            <label for="city">City</label>
                         </p-floatLabel>
                         <span
                             *ngIf="patientProfileForm.get('City')?.touched && patientProfileForm.get('City')?.hasError('required')"
@@ -188,9 +188,8 @@
                             City is Required!
                         </span>
                     </div>
-                    <div class="col-md-6 mt-3">
-
-                        <p-dropdown [options]="regionList" optionValue="regionId" formControlName="regionId"
+                    <div class="col-md-6 mt-4">
+                        <p-dropdown [options]="regionList" optionValue="regionId" formControlName="regionId" p-dropdown-label="State"
                             [readonly]="isEditButton" placeholder="Select State" optionLabel="name" [ngClass]="{
                                     'ng-dirty':
                                     patientProfileForm.get('regionId')?.invalid &&
@@ -200,13 +199,14 @@
                                       patientProfileForm.get('regionId')?.valid &&
                                       (patientProfileForm.get('regionId')?.dirty || patientProfileForm.get('regionId')?.touched)
                                   }" />
+                                 
                         <span
                             *ngIf="patientProfileForm.get('regionId')?.touched && patientProfileForm.get('regionId')?.hasError('required')"
                             class="errorMessage">
                             Region is required.
                         </span>
                     </div>
-                    <div class="col-md-5 col-10 mt-3">
+                    <div class="col-md-5 col-10 mt-4">
                         <p-floatLabel>
                             <input pInputText type="number" id="zipcode" placeholder="" formControlName="Zipcode"
                                 [ngClass]="{
@@ -226,7 +226,7 @@
                             ZipCode is required.
                         </span>
                     </div>
-                    <div class="col-md-1 col-2 mt-3">
+                    <div class="col-md-1 col-2 mt-4">
                         <p-button label="" id="locationButton" [outlined]="true" severity="info" data-bs-toggle="modal" data-bs-target="#exampleModal"
                             icon="pi pi-map-marker">
                         </p-button>

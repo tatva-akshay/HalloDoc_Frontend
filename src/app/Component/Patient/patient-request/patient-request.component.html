@@ -81,7 +81,7 @@
                         </span>
                     </div>
 
-                    <div class="col-md-6 mt-3">
+                    <div class="col-md-6 mt-4">
 
                         <p-calendar class="" formControlName="Bdate" [iconDisplay]="'input'" [showIcon]="true"
                             inputId="Bdate" [ngClass]="{
@@ -214,7 +214,7 @@
 
                 <div class="row mt-3 mt-md-0" id="passwordFields" *ngIf="!isExistUser">
 
-                    <div class="col-md-6 mt-3">
+                    <div class="col-md-6 mt-4">
                         <p-floatLabel>
                             <!-- <input type="password" id="passwordshow" class="form-control" formControlName="Password" -->
                             <p-password [toggleMask]="true" formControlName="PasswordHash" [ngClass]="{
@@ -263,7 +263,7 @@
                             </span>
                         </div> -->
                     </div>
-                    <div class="col-md-6 mt-3">
+                    <div class="col-md-6 mt-4">
                         <!-- <div class="form-floating mb-3">
                             <input type="password" class="form-control" id="cpassword" placeholder="">
                             <label for="Cpassword"> Confirm Password</label>
@@ -338,7 +338,7 @@
                         </span>
                     </div>
 
-                    <div class="col-md-6 mt-3">
+                    <div class="col-md-6 mt-4">
 
                         <p-dropdown [options]="regionList" optionValue="regionId" formControlName="regionId" placeholder="Select State"
                             optionLabel="name" [ngClass]="{
@@ -373,7 +373,7 @@
                             Region is required.
                         </span>
                     </div>
-                    <div class="col-md-6 mt-3">
+                    <div class="col-md-6 mt-4">
                         <p-floatLabel>
                             <input pInputText type="number" id="zipcode" placeholder="" formControlName="Zipcode"
                                 [ngClass]="{
@@ -393,7 +393,7 @@
                             ZipCode is required.
                         </span>
                     </div>
-                    <div class="col-md-6 mt-3">
+                    <div class="col-md-6 mt-4">
                         <p-floatLabel>
                             <input pInputText type="text" id="room" placeholder="" formControlName="Room" [ngClass]="{
                                 'ng-dirty':
