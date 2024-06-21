@@ -1,4 +1,4 @@
-import { Component, ElementRef } from '@angular/core';
+import { Component, ElementRef, Input, SimpleChanges } from '@angular/core';
 import { PatientLoginNavComponent } from '../../Patient/patient-login-nav/patient-login-nav.component';
 import { PatientLoginFooterComponent } from '../../Patient/patient-login-footer/patient-login-footer.component';
 import { EmailValidator, FormControl, FormGroup, ReactiveFormsModule, RequiredValidator, Validators } from '@angular/forms';
@@ -47,6 +47,7 @@ import { PatientBackendCallService } from '../../../Service/Patient/patient-back
   styleUrl: './patient-login.component.scss'
 })
 export class PatientLoginComponent {
+  @Input() data :string = "not";
 
   constructor(
     private elementRef: ElementRef,
@@ -56,10 +57,6 @@ export class PatientLoginComponent {
     private messageService: MessageService,
     private patientBackendCallService: PatientBackendCallService
   ) {
-
-  }
-
-  ngOnInit(): void {
 
   }
 
@@ -106,7 +103,6 @@ export class PatientLoginComponent {
         if (res.result.role == "3") {
           localStorage.setItem("token", res.result.token);
           localStorage.setItem("email", res.result.email);
-
           this.messageService.add({ severity: 'success', summary: 'Login Successful', detail: 'You have been logged in successfully.' });
           this.router.navigateByUrl("patient/dashboard");
         }else{

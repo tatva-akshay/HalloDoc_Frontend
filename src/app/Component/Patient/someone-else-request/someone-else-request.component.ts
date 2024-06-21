@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, formatDate } from '@angular/common';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -21,6 +21,7 @@ import { futureDateValidator, ageRangeValidator } from '../../../Validators/Bdat
 import { emailValidator } from '../../../Validators/Email.validator';
 import { RegionDropDown } from '../../../Model/Interface/Common/region-drop-down';
 import { OtherRequestDTO } from '../../../Model/Interface/Patient/other-request-dto';
+import { request } from 'http';
 
 @Component({
   selector: 'app-someone-else-request',
@@ -57,6 +58,7 @@ export class SomeoneElseRequestComponent {
 
   }
   regionList: RegionDropDown[] = [];
+  uploadedFiles: File[] = [];
   ngOnInit(): void {
     this.patientBackendCallService.getAllRegion().subscribe((res: any) => {
       if (!res.isSuccess) {
@@ -73,8 +75,9 @@ export class SomeoneElseRequestComponent {
       }
     });
   }
+
   someoneElseRequest: FormGroup = this.formBuilder.group({
-    YFirstName:[],
+    YFirstName: [],
     RelationName: ['', [], []],
     Symptoms: [],
     FirstName: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(3)]],
@@ -91,18 +94,41 @@ export class SomeoneElseRequestComponent {
     // Files: [[]],
   });
 
-  RequestSubmit(){
+  requestDataForm: FormData = new FormData();
+
+  uploadDocument(event: any) {
+    for (let file of event.files) {
+      console.log(file)
+      this.uploadedFiles.push(file.name);
+      this.requestDataForm.append('File', file, file.name);
+    }
+  }
+
+  RequestSubmit() {
+
     this.someoneElseRequest.markAllAsTouched();
-    this.someoneElseRequest.get("YFirstName")?.setValue(this.authService.getUserEmail());
-    console.log(this.someoneElseRequest.value)
-    console.log(this.someoneElseRequest.valid)
-    if(this.someoneElseRequest.invalid){
+    if (this.someoneElseRequest.invalid) {
       return;
     }
-    const otherRequestData: OtherRequestDTO = this.someoneElseRequest.value;
-    console.log(otherRequestData);
+    const requestorEmail = this.authService.getUserEmail() ?? "Requestor";
 
-    this.patientBackendCallService.someoneElseRequest(otherRequestData).subscribe((res:any)=>{
+    const otherRequestData: OtherRequestDTO = this.someoneElseRequest.value;
+    console.log(otherRequestData)
+    debugger
+    this.requestDataForm.append("RelationName",otherRequestData?.RelationName)
+    this.requestDataForm.append("Symptoms",otherRequestData?.Symptoms)
+    this.requestDataForm.append("FirstName",otherRequestData?.FirstName)
+    this.requestDataForm.append("LastName",otherRequestData?.LastName)
+    this.requestDataForm.append("Bdate",formatDate(otherRequestData?.Bdate, 'yyyy-MM-ddTHH:mm:ss', 'en-US'))
+    this.requestDataForm.append("Email",otherRequestData?.Email)
+    this.requestDataForm.append("Mobile",otherRequestData?.Mobile)
+    this.requestDataForm.append("Street",otherRequestData?.Street)
+    this.requestDataForm.append("City",otherRequestData?.City)
+    this.requestDataForm.append("Zipcode",this.someoneElseRequest.get("Zipcode")?.value.toString())
+    this.requestDataForm.append("regionId",otherRequestData?.regionId.toString())
+    this.requestDataForm.append("YFirstName",requestorEmail?.toString())
+
+    this.patientBackendCallService.someoneElseRequest(this.requestDataForm).subscribe((res: any) => {
       if (!res.isSuccess) {
         if (res.httpStatusCode == 400) {
           this.messageService.add({ severity: 'error', detail: res.error.toString(), life: 3000 });

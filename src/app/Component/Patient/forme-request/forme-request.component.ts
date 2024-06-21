@@ -3,7 +3,7 @@ import { SubmitrequestFooterComponent } from '../submitrequest-footer/submitrequ
 import { DashboardHeaderComponent } from '../dashboard-header/dashboard-header.component';
 import { ToastModule } from 'primeng/toast';
 import { MessagesModule } from 'primeng/messages';
-import { CommonModule } from '@angular/common';
+import { CommonModule, formatDate } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -81,15 +81,12 @@ export class FormeRequestComponent {
       }
     });
     const userEmailDTO: ValidateEmailDTO = {
-      // email: localStorage.getItem('email')!
       email: this.authService.getUserEmail()!
     };
     this.patientBackendCallService.getPatientProfile(userEmailDTO).subscribe({
       next: (response: any) => {
         if (response.isSuccess) {
-          // console.log(response);
           const PatientProfileData: PatientProfile = response.result;
-          // console.log(this.PatientProfileData)
 
           this.PatientRequestForm.get("UserId")?.setValue(PatientProfileData?.userId)
           this.PatientRequestForm.get("FirstName")?.setValue(PatientProfileData?.firstName)
@@ -126,31 +123,45 @@ export class FormeRequestComponent {
     Zipcode: ['', [Validators.required]],
     regionId: [null, [Validators.required]],
     Room: ['', [Validators.maxLength(20)], []],
-    isPatientExist: [true,[],[]],
-    File:[[],[],[]]
+    isPatientExist: [true, [], []],
+    // File: [[], [], []]
   })
- 
-  uploadDocument(event:any) {
-    for(let file of event.files) {
-        this.uploadedFiles.push(file);
-      }
-    this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
-}
+
+  patinetDataForm : FormData = new FormData();
+  
+  uploadDocument(event: any) {
+    for (let file of event.files) {
+      console.log(file)
+      this.uploadedFiles.push(file.name);
+      this.patinetDataForm.append('File', file, file.name);
+    }  
+  }
 
   PatientRequestSubmit() {
-    console.log(this.uploadedFiles)
-    this.PatientRequestForm.get("File")?.setValue(this.uploadedFiles);
+    // console.log(this.uploadedFiles)
+    // this.PatientRequestForm.get("File")?.setValue(this.uploadedFiles);
+    debugger
     if (this.PatientRequestForm.invalid) {
       this.PatientRequestForm.markAllAsTouched();
       return;
     }
-    const patientDetails: PatientDetails = this.PatientRequestForm.value;
+    this.patinetDataForm.append("Symptoms",this.PatientRequestForm.get("Symptoms")?.value);
+    this.patinetDataForm.append("FirstName",this.PatientRequestForm.get("FirstName")?.value);
+    this.patinetDataForm.append("LastName",this.PatientRequestForm.get("LastName")?.value);
+    this.patinetDataForm.append("Bdate",formatDate(this.PatientRequestForm.get("Bdate")?.value, 'yyyy-MM-ddTHH:mm:ss', 'en-US'));
+    this.patinetDataForm.append("Email",this.PatientRequestForm.get("Email")?.value);
+    this.patinetDataForm.append("Mobile",this.PatientRequestForm.get("Mobile")?.value);
+    this.patinetDataForm.append("Street",this.PatientRequestForm.get("Street")?.value);
+    this.patinetDataForm.append("City",this.PatientRequestForm.get("City")?.value);
+    this.patinetDataForm.append("Zipcode",this.PatientRequestForm.get("Zipcode")?.value);
+    this.patinetDataForm.append("regionId",this.PatientRequestForm.get("regionId")?.value);
+    this.patinetDataForm.append("Room",this.PatientRequestForm.get("Room")?.value);
+    this.patinetDataForm.append("isPatientExist",this.PatientRequestForm.get("isPatientExist")?.value);
     
-    console.log("PatientDetails", patientDetails)
-    console.log(this.PatientRequestForm.value)
-    console.log(this.PatientRequestForm.valid)
+    console.log(this.patinetDataForm);
+    // const patientDetails: PatientDetail= undefined;
 
-    this.patientBackendCallService.formeRequest(patientDetails).subscribe({
+    this.patientBackendCallService.formeRequest(this.patinetDataForm).subscribe({
       next: (response) => {
         if (!response.isSuccess) {
           if (response.httpStatusCode == 400) {

@@ -17,13 +17,14 @@
 // };
 
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Inject, Injectable } from "@angular/core";
 import { AuthService } from "../Service/Patient/authservice.service";
 import { Observable } from "rxjs";
 @Injectable()
 export class myInterceptorInterceptor implements HttpInterceptor {
-
-  constructor(private authService: AuthService) { }
+  constructor(
+    private authService: AuthService,
+  ) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = this.authService.getUserToken();
@@ -36,7 +37,6 @@ export class myInterceptorInterceptor implements HttpInterceptor {
       });
       return next.handle(authReq);
     } else {
-      // Handle the case where token is not available or not needed
       return next.handle(req);
     }
   }

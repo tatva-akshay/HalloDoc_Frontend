@@ -5,7 +5,9 @@
 :host ::ng-deep .p-button {
     color: #0dcaf0;
 }
-
+:host ::ng-deep .filebutton .p-button {
+    color: white;
+}
 .DocumentRow {
     height: 60px;
 }

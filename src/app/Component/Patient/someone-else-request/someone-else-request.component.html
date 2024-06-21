@@ -207,7 +207,7 @@
                         </span>
                     </div>
 
-                    <div class="col-md-6 mt-3">
+                    <div class="col-md-6 mt-4">
 
                         <p-dropdown [options]="regionList" optionValue="regionId" formControlName="regionId"
                             placeholder="Select State" optionLabel="name" [ngClass]="{
@@ -225,7 +225,7 @@
                             Region is required.
                         </span>
                     </div>
-                    <div class="col-md-6 mt-3">
+                    <div class="col-md-6 mt-4">
                         <p-floatLabel>
                             <input pInputText type="number" id="zipcode" placeholder="" formControlName="Zipcode"
                                 [ngClass]="{
@@ -245,7 +245,7 @@
                             ZipCode is required.
                         </span>
                     </div>
-                    <div class="col-md-6 mt-3">
+                    <div class="col-md-6 mt-4">
                         <p-floatLabel>
                             <input pInputText type="text" id="room" placeholder="" formControlName="Room" [ngClass]="{
                                 'ng-dirty':
@@ -283,26 +283,10 @@
 
                 <div class="row">
                     <div class="col">
-
-                        <!-- <div class="input-group mb-3">
-                            <input type="file" class="form-control" placeholder=""
-                                aria-label="Recipient's username" aria-describedby="button-addon2" formControlName="Files" multiple>
-                            <button class="btn btn-info text-light" type="button" id="button-addon2">Upload</button>
-                        </div> -->
-
-                        <!-- <div class="input-group mb-3">
-                            <span class="position-absolute" style="left: 0; top: 10px;" id="message">
-                                No item
-                                selected
-                            </span>
-                            <button class="btn btn-info text-light position-absolute rounded-3"
-                                style="right: 0; top: 5px;" type="button" id="button-addon2">
-                                <i class="bi bi-cloud-arrow-up me-1"></i>Upload
-                            </button>
-                            <input type="file" class="form-control file-select position-absolute border" id="my-file"
-                                style="width: 100%;" multiple formControlName="File">     
-                        </div> -->
-
+                        <p-toast />
+                        <p-fileUpload name="File[]" [customUpload]="true" [showCancelButton]="false" [showUploadButton]="false"
+                            (onSelect)="uploadDocument($event)"  [multiple]="true" accept="image/*" maxFileSize="1000000">
+                        </p-fileUpload>
                     </div>
                 </div>
 

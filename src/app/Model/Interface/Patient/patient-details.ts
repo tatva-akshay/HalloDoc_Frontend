@@ -12,5 +12,5 @@ export interface PatientDetails {
     Zipcode: string,
     regionId: string,
     Room: string,
-    // File: File[],
+    File: File[],
 }

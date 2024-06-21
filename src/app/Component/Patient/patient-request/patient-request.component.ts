@@ -5,7 +5,7 @@ import { Route, Router, RouterLink } from '@angular/router';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ageRangeValidator, futureDateValidator } from '../../../Validators/Bdate.validator';
 import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
+import { CommonModule, formatDate } from '@angular/common';
 import { emailValidator } from '../../../Validators/Email.validator';
 import { ValidateEmailDTO } from '../../../Model/Interface/Patient/validate-email-dto';
 import { PatientDetails } from '../../../Model/Interface/Patient/patient-details';
@@ -63,6 +63,8 @@ export class PatientRequestComponent {
 
   isExistUser: boolean = true;
   regionList: RegionDropDown[] = [];
+  uploadedFiles: File[] = [];
+
   ConfirmPasswordValidator(control: AbstractControl) {
     debugger;
     let a = control.get('PasswordHash')
@@ -75,13 +77,13 @@ export class PatientRequestComponent {
     LastName: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(3)]],
     Bdate: ['', [Validators.required], [futureDateValidator, ageRangeValidator(18, 50)]],
     Email: ['', [Validators.required], [emailValidator]],
-    Mobile: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(10)],[]],
+    Mobile: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(10)], []],
     Street: ['', [Validators.required]],
     City: ['', [Validators.required]],
     Zipcode: ['', [Validators.required]],
     regionId: [null, [Validators.required]],
     Room: ['', [Validators.maxLength(20)], []],
-    // Files: [[]],
+    File: new FormData(),
     isPatientExist: [this.isExistUser]
   })
 
@@ -119,7 +121,7 @@ export class PatientRequestComponent {
             this.isExistUser = false;
             this.PatientRequestForm.get('isPatientExist')?.setValue(this.isExistUser);
             this.PatientRequestForm.addControl('PasswordHash', new FormControl('', [Validators.required], [passwordValidator]));
-            this.PatientRequestForm.addControl('ConfirmPasswordHash', new FormControl('',[Validators.required]));
+            this.PatientRequestForm.addControl('ConfirmPasswordHash', new FormControl('', [Validators.required]));
             this.PatientRequestForm.addValidators(this.ConfirmPasswordValidator);
             this.messageService.add({ severity: 'error', detail: 'User Does Not Exists! Enter Password!', life: 3000 });
           }
@@ -129,11 +131,11 @@ export class PatientRequestComponent {
           this.PatientRequestForm.get('isPatientExist')?.setValue(this.isExistUser);
           this.PatientRequestForm.removeControl('PasswordHash');
           this.PatientRequestForm.removeControl('ConfirmPasswordHash');
-          if(res.result.role != "3"){
+          if (res.result.role != "3") {
             this.messageService.add({ severity: 'error', detail: "You're not authorized For Request!", life: 3000 });
             this.router.navigateByUrl("");
           }
-          else{
+          else {
             this.messageService.add({ severity: 'success', detail: 'Exists User!', life: 3000 });
           }
         }
@@ -144,16 +146,42 @@ export class PatientRequestComponent {
     }
   }
 
+  patientRequestFormData: FormData = new FormData();
+
+  uploadDocument(event: any) {
+    for (let file of event.files) {
+      console.log(file)
+      this.uploadedFiles.push(file.name);
+      this.patientRequestFormData.append('File', file, file.name);
+    }
+  }
+
   PatientRequestSubmit() {
-    const patientDetails: PatientDetails = this.PatientRequestForm.value;
-    console.log("PatientDetails", patientDetails)
-    console.log(this.PatientRequestForm.value)
-    console.log(this.PatientRequestForm.valid)
+
     if (this.PatientRequestForm.invalid) {
       this.PatientRequestForm.markAllAsTouched();
       return;
     }
-    this.patientBackendCallService.createPatientRequest(patientDetails).subscribe((res: any) => {
+    
+    console.log(this.PatientRequestForm)
+    this.patientRequestFormData.append("Symptoms", this.PatientRequestForm.get("Symptoms")?.value);
+    this.patientRequestFormData.append("FirstName", this.PatientRequestForm.get("FirstName")?.value);
+    this.patientRequestFormData.append("LastName", this.PatientRequestForm.get("LastName")?.value);
+    this.patientRequestFormData.append("Bdate", formatDate(this.PatientRequestForm.get("Bdate")?.value, 'yyyy-MM-ddTHH:mm:ss', 'en-US'));
+    this.patientRequestFormData.append("Email", this.PatientRequestForm.get("Email")?.value);
+    this.patientRequestFormData.append("Mobile", this.PatientRequestForm.get("Mobile")?.value);
+    this.patientRequestFormData.append("Street", this.PatientRequestForm.get("Street")?.value);
+    this.patientRequestFormData.append("City", this.PatientRequestForm.get("City")?.value);
+    this.patientRequestFormData.append("Zipcode", this.PatientRequestForm.get("Zipcode")?.value);
+    this.patientRequestFormData.append("regionId", this.PatientRequestForm.get("regionId")?.value);
+    this.patientRequestFormData.append("Room", this.PatientRequestForm.get("Room")?.value);
+    this.patientRequestFormData.append("isPatientExist", this.PatientRequestForm.get("isPatientExist")?.value);
+
+    this.PatientRequestForm.get("File")?.setValue(this.patientRequestFormData);
+
+    console.log(this.PatientRequestForm)
+
+    this.patientBackendCallService.createPatientRequest(this.patientRequestFormData).subscribe((res: any) => {
       if (!res.isSuccess) {
         if (res.httpStatusCode == 400) {
           this.messageService.add({ severity: 'error', detail: res.error.toString(), life: 3000 });

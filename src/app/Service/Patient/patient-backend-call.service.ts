@@ -51,7 +51,8 @@ export class PatientBackendCallService {
     );
   } 
 
-  createPatientRequest(patientDetails:PatientDetails): Observable<APIResponse>{
+  createPatientRequest(patientDetails:FormData): Observable<APIResponse>{
+    console.log(patientDetails);
     return this.http.post<APIResponse>(`${this.apiUrl}/api/Patient/PatientRequest`,patientDetails)
     .pipe(
       map((response) => {
@@ -132,6 +133,15 @@ export class PatientBackendCallService {
     );
   } 
 
+  uploadDocument(documentFormData:FormData): Observable<APIResponse>{
+    return this.http.post<APIResponse>(`${this.apiUrl}/api/Patient/UploadDocument`, documentFormData)
+    .pipe(
+      map((response) => {
+        return response;
+      })
+    );
+  } 
+
   downloadDocument(downloadDocument:DownloadRWF): Observable<APIResponse>{
     return this.http.post<APIResponse>(`${this.apiUrl}/api/Patient/DownloadDocuments`,downloadDocument)
     .pipe(
@@ -150,7 +160,7 @@ export class PatientBackendCallService {
     );
   } 
 
-  formeRequest(patientDetails: PatientDetails): Observable<APIResponse>{
+  formeRequest(patientDetails: FormData): Observable<APIResponse>{
     return this.http.post<APIResponse>(`${this.apiUrl}/api/Patient/ForMeRequest`,patientDetails)
     .pipe(
       map((response) => {
@@ -159,7 +169,7 @@ export class PatientBackendCallService {
     );
   } 
 
-  someoneElseRequest(otherRequestDetails: OtherRequestDTO): Observable<APIResponse>{
+  someoneElseRequest(otherRequestDetails: FormData): Observable<APIResponse>{
     return this.http.post<APIResponse>(`${this.apiUrl}/api/Patient/ForSomeoneElseRequest`,otherRequestDetails)
     .pipe(
       map((response) => {

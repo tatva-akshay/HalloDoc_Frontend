@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
 
 import { ButtonModule } from 'primeng/button';
@@ -24,19 +24,43 @@ export class DashboardHeaderComponent {
   constructor(
     private router: Router,
     private messageService: MessageService,
-    private authService: AuthService
-  ) { }
+    private authService: AuthService,
+    private route: ActivatedRoute 
+  ) {
+    
+   }
   userEmail: string = this.authService.getUserEmail()!;
-
-  items: MenuItem[] | undefined;
+  items: MenuItem[] =[];
+  activeTab: MenuItem | undefined; // Initialize active tab ID
+  @ViewChild('sidebarRef') sidebarRef!: Sidebar;
 
   ngOnInit() {
     this.items = [
       { label: 'Dashboard', icon: 'pi pi-home', routerLink:['/patient/dashboard'], id:'Dashboard' },
-      { label: 'Profile', icon: 'pi pi-user', routerLink:['/patient/profile']}
+      { label: 'Profile', icon: 'pi pi-user', routerLink:['/patient/profile'], id:'Profile'}
     ]
+
+    this.checkActiveTab();
+
+    // Subscribe to router events to dynamically update active tab
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.checkActiveTab();
+      }
+    });
   }
-  @ViewChild('sidebarRef') sidebarRef!: Sidebar;
+
+  checkActiveTab(): void {
+    const currentRoute = this.router.url;
+    if (currentRoute.includes('/patient/viewdocument') || currentRoute.includes('/patient/formerequest') || currentRoute.includes('/patient/someoneelserequest')) {
+          this.activeTab = this.items.find(item => item.id=="Dashboard");
+        } else if (currentRoute.includes('/patient/profile')) {
+          this.activeTab = this.items.find(item => item.id=="Profile");
+        } else {
+          // Handle other routes if needed
+          this.activeTab = this.items.find(item => item.id=="Dashboard"); // Default to Dashboard if no match
+        }
+  }
 
   closeCallback(e:any): void {
     this.sidebarRef.close(e);

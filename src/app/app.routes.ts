@@ -30,4 +30,5 @@ export const routes: Routes = [
     {path:"patient/viewdocument", component:ViewDocumentComponent, canActivate: [publicRouteGuard]},
     {path:"patient/formerequest", component:FormeRequestComponent, canActivate: [publicRouteGuard]},
     {path:"patient/someoneelserequest", component:SomeoneElseRequestComponent, canActivate: [publicRouteGuard]},
+    {path:"**",component:PatientSiteComponent}
 ];

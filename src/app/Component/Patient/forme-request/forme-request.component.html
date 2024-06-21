@@ -210,7 +210,7 @@
                         </span>
                     </div>
 
-                    <div class="col-md-6 mt-3">
+                    <div class="col-md-6 mt-4">
 
                         <p-dropdown [options]="regionList" optionValue="regionId" formControlName="regionId"
                             placeholder="Select State" optionLabel="name" [ngClass]="{
@@ -228,7 +228,7 @@
                             Region is required.
                         </span>
                     </div>
-                    <div class="col-md-6 mt-3">
+                    <div class="col-md-6 mt-4">
                         <p-floatLabel>
                             <input pInputText type="number" id="zipcode" placeholder="" formControlName="Zipcode"
                                 [ngClass]="{
@@ -248,7 +248,7 @@
                             ZipCode is required.
                         </span>
                     </div>
-                    <div class="col-md-6 mt-3">
+                    <div class="col-md-6 mt-4">
                         <p-floatLabel>
                             <input pInputText type="text" id="room" placeholder="" formControlName="Room" [ngClass]="{
                                 'ng-dirty':
@@ -271,16 +271,9 @@
                 <p class="fs-4 fw-semibold">(Optional) Upload Photo or Document</p>
                 <div class="row">
                     <div class="col">
-                        <p-toast />
-                        <p-fileUpload name="File[]" [customUpload]="true" [showCancelButton]="false" [showUploadButton]="false"
+                        <p-toast/>
+                        <p-fileUpload [customUpload]="true" [showCancelButton]="false" [showUploadButton]="false"
                             (onSelect)="uploadDocument($event)" [multiple]="true" accept="image/*" maxFileSize="1000000">
-                            <ng-template pTemplate="content">
-                                <ul *ngIf="uploadedFiles.length">
-                                    <li *ngFor="let file of uploadedFiles">
-                                        {{ file.name }} - {{ file.size }} bytes
-                                    </li>
-                                </ul>
-                            </ng-template>
                         </p-fileUpload>
                     </div>
                 </div>

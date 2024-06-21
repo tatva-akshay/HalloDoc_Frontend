@@ -1,6 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 import { Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { SubmitrequestFooterComponent } from '../submitrequest-footer/submitrequest-footer.component';
 import { DashboardHeaderComponent } from '../dashboard-header/dashboard-header.component';
 import { ToastModule } from 'primeng/toast';
@@ -20,6 +20,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { DownloadRWF } from '../../../Model/Interface/Patient/download-rwf';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
+import { FileUploadModule } from 'primeng/fileupload';
 
 
 @Component({
@@ -41,7 +42,8 @@ import { ConfirmationService } from 'primeng/api';
     RouterLink,
     CheckboxModule,
     FormsModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    FileUploadModule
   ],
   providers: [PatientBackendCallService, ConfirmationService],
   templateUrl: './view-document.component.html',
@@ -50,6 +52,7 @@ import { ConfirmationService } from 'primeng/api';
 export class ViewDocumentComponent {
   @ViewChild('headerCheckBox') headerCheckBox: any;
   @ViewChildren('rowCheckBox') rowCheckBoxes!: QueryList<ElementRef>[];
+  uploadedFiles: File[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -57,7 +60,8 @@ export class ViewDocumentComponent {
     private authService: AuthService,
     private messageService: MessageService,
     private activatedRoute: ActivatedRoute,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private router : Router
   ) {
 
   }
@@ -68,6 +72,7 @@ export class ViewDocumentComponent {
   documentList: ViewDocument[] = [];
   selectedDocuments!: any[];
   allChecked: boolean = false;
+
   ngOnInit(): void {
     const requestId = this.activatedRoute.snapshot.queryParams['requestId'];
     console.log("requestId", requestId);
@@ -108,6 +113,29 @@ export class ViewDocumentComponent {
       this.allChecked = false;
     }
   }
+  patientFileUpload : FormData = new FormData();
+
+  selectDocument(event: any) {
+    for (let file of event.files) {
+      console.log(file)
+      this.uploadedFiles.push(file.name);
+      this.patientFileUpload.append('uploadedDocumentList', file, file.name);
+    }  
+  }
+
+  uploadDocument() {
+    this.patientFileUpload.append("requestId",this.requestId.toString());
+     this.patientBackendCallService.uploadDocument(this.patientFileUpload).subscribe({
+      next:(response)=>{
+        console.log(response);
+        this.router.navigateByUrl('patient/viewdocument?requestId='+this.requestId);
+        this.messageService.add({ severity: 'success', detail: "file uploaded", life: 3000 });
+      },
+      error:(error:any)=>{
+        this.messageService.add({ severity: 'error', detail: error.toString(), life: 3000 });
+      }
+     })
+  }
 
   DownloadSingleDocument(item: any) {
     var downloadDocument: DownloadRWF = {
@@ -120,7 +148,6 @@ export class ViewDocumentComponent {
     downloadDocument.isDownloadALl = false;
 
     this.patientBackendCallService.downloadDocument(downloadDocument).subscribe({
-
     })
   }
 
@@ -139,7 +166,6 @@ export class ViewDocumentComponent {
       downloadDocument.isDownloadALl = false;
     }
     this.patientBackendCallService.downloadDocument(downloadDocument).subscribe({
-
     })
   }
 
