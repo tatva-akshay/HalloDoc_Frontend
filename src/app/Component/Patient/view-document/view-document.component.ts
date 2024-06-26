@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { SubmitrequestFooterComponent } from '../submitrequest-footer/submitrequest-footer.component';
@@ -21,6 +21,7 @@ import { DownloadRWF } from '../../../Model/Interface/Patient/download-rwf';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { FileUploadModule } from 'primeng/fileupload';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -52,6 +53,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 export class ViewDocumentComponent {
   @ViewChild('headerCheckBox') headerCheckBox: any;
   @ViewChildren('rowCheckBox') rowCheckBoxes!: QueryList<ElementRef>[];
+  @ViewChild('fileUpload') fileUpload: any;
   uploadedFiles: File[] = [];
 
   constructor(
@@ -61,7 +63,8 @@ export class ViewDocumentComponent {
     private messageService: MessageService,
     private activatedRoute: ActivatedRoute,
     private confirmationService: ConfirmationService,
-    private router : Router
+    private router: Router,
+    private http: HttpClient
   ) {
 
   }
@@ -74,9 +77,15 @@ export class ViewDocumentComponent {
   allChecked: boolean = false;
 
   ngOnInit(): void {
-    const requestId = this.activatedRoute.snapshot.queryParams['requestId'];
-    console.log("requestId", requestId);
-    this.patientBackendCallService.getViewDocument(requestId).subscribe({
+    this.getDocuments();
+  }
+
+  getDocuments() {
+    this.activatedRoute.params.subscribe((paramElem) => {
+      this.requestId = paramElem['requestId'];
+    })
+    // const requestId = this.activatedRoute.snapshot.params['requestId'];
+    this.patientBackendCallService.getViewDocument(this.requestId).subscribe({
       next: (response: any) => {
         console.log(response);
         if (response.isSuccess) {
@@ -113,28 +122,37 @@ export class ViewDocumentComponent {
       this.allChecked = false;
     }
   }
-  patientFileUpload : FormData = new FormData();
+  patientFileUpload: FormData = new FormData();
 
   selectDocument(event: any) {
+    console.log(this.fileUpload)
     for (let file of event.files) {
       console.log(file)
       this.uploadedFiles.push(file.name);
       this.patientFileUpload.append('uploadedDocumentList', file, file.name);
-    }  
+    }
   }
 
   uploadDocument() {
-    this.patientFileUpload.append("requestId",this.requestId.toString());
-     this.patientBackendCallService.uploadDocument(this.patientFileUpload).subscribe({
-      next:(response)=>{
+    this.patientFileUpload.append("requestId", this.requestId.toString());
+    this.patientBackendCallService.uploadDocument(this.patientFileUpload).subscribe({
+      next: (response) => {
         console.log(response);
-        this.router.navigateByUrl('patient/viewdocument?requestId='+this.requestId);
+        this.getDocuments();
         this.messageService.add({ severity: 'success', detail: "file uploaded", life: 3000 });
+        this.clearDocument();
       },
-      error:(error:any)=>{
+      error: (error: any) => {
         this.messageService.add({ severity: 'error', detail: error.toString(), life: 3000 });
       }
-     })
+    })
+  }
+
+  clearDocument() {
+    console.log(this.fileUpload)
+    if (this.fileUpload && this.fileUpload.files) {
+      this.fileUpload.clear();
+    }
   }
 
   DownloadSingleDocument(item: any) {
@@ -147,8 +165,7 @@ export class ViewDocumentComponent {
     downloadDocument.requestId = item.requestId;
     downloadDocument.isDownloadALl = false;
 
-    this.patientBackendCallService.downloadDocument(downloadDocument).subscribe({
-    })
+    this.DownloadBlob(downloadDocument);
   }
 
   DownloadAllDocument() {
@@ -165,11 +182,29 @@ export class ViewDocumentComponent {
       downloadDocument.RequestWiseFileId = this.selectedDocuments;
       downloadDocument.isDownloadALl = false;
     }
-    this.patientBackendCallService.downloadDocument(downloadDocument).subscribe({
-    })
+    this.DownloadBlob(downloadDocument);
   }
 
-  DeleteDocument(event: Event, item:any) {
+  DownloadBlob(downloadDocument:DownloadRWF){
+    this.http.post('https://localhost:7001/api/Patient/DownloadDocuments', downloadDocument, {
+      responseType: 'blob'
+    }).subscribe(blob => {
+
+      const downloadUrl = window.URL.createObjectURL(blob);
+
+      const link = document.createElement('a');
+      link.href = downloadUrl;
+      link.download = 'DownloadedFiles.zip';
+      document.body.appendChild(link);
+      link.click();
+
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(downloadUrl);
+    });
+
+  }
+
+  DeleteDocument(event: Event, item: any) {
     this.confirmationService.confirm({
       target: event.target as EventTarget,
       message: 'Do you want to delete this record?',
@@ -182,7 +217,7 @@ export class ViewDocumentComponent {
 
       accept: () => {
         this.patientBackendCallService.deleteDocument(item.requestWiseFileId).subscribe({
-          next:(response)=>{
+          next: (response) => {
             console.log(response);
             if (response.isSuccess) {
               this.patientBackendCallService.getViewDocument(this.requestId).subscribe({
@@ -199,13 +234,13 @@ export class ViewDocumentComponent {
                   this.messageService.add({ severity: 'error', detail: error.toString(), life: 3000 });
                 }
               })
-              this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Record deleted' });              
+              this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Record deleted' });
             }
-            else{
+            else {
               this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: response.error });
             }
           },
-          error:(error:any)=>{
+          error: (error: any) => {
             this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: error.toString() });
           }
         })

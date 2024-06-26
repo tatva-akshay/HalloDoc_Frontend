@@ -27,7 +27,7 @@ export const routes: Routes = [
     {path:"patient/otherrequest", component:OtherRequestComponent},
     {path:"patient/dashboard", component:PatientDashboardComponent, canActivate: [publicRouteGuard]},
     {path:"patient/profile", component:PatientprofileComponent, canActivate: [publicRouteGuard]},
-    {path:"patient/viewdocument", component:ViewDocumentComponent, canActivate: [publicRouteGuard]},
+    {path:"patient/viewdocument/:requestId", component:ViewDocumentComponent, canActivate: [publicRouteGuard]},
     {path:"patient/formerequest", component:FormeRequestComponent, canActivate: [publicRouteGuard]},
     {path:"patient/someoneelserequest", component:SomeoneElseRequestComponent, canActivate: [publicRouteGuard]},
     {path:"**",component:PatientSiteComponent}

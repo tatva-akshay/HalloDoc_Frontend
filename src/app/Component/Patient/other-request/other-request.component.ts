@@ -3,7 +3,7 @@ import { SubmitrequestHeaderComponent } from '../submitrequest-header/submitrequ
 import { SubmitrequestFooterComponent } from '../submitrequest-footer/submitrequest-footer.component';
 import { PatientBackendCallService } from '../../../Service/Patient/patient-backend-call.service';
 import { FormBuilder,ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { CommonModule, formatDate } from '@angular/common';
 import { ParametersService } from '../../../Service/Patient/parameters.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
@@ -18,6 +18,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
 import { Router, RouterLink } from '@angular/router';
 import { OtherRequestDTO } from '../../../Model/Interface/Patient/other-request-dto';
+import { FileUploadModule } from 'primeng/fileupload';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-other-request',
@@ -33,7 +35,9 @@ import { OtherRequestDTO } from '../../../Model/Interface/Patient/other-request-
     CalendarModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RouterLink
+    RouterLink,
+    FileUploadModule,
+    ToastModule
   ],
   providers: [PatientBackendCallService],
   templateUrl: './other-request.component.html',
@@ -52,10 +56,11 @@ export class OtherRequestComponent {
   }
   requestorType: string = "2";
   regionList: RegionDropDown[] = [];
+  uploadedFiles: File[] = [];
   ngOnInit(): void {
 
     this.requestorType = this.parametersService.getRequestButton() || "2";
-    
+
     this.patientBackendCallService.getAllRegion().subscribe((res: any) => {
       if (!res.isSuccess) {
         alert("not found")
@@ -76,7 +81,6 @@ export class OtherRequestComponent {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
     localStorage.removeItem('requestType');
-
   }
 
   otherRequestForm: FormGroup = this.formBuilder.group({
@@ -101,15 +105,44 @@ export class OtherRequestComponent {
     // Files: [[]],
   });
 
+  otherRequestFormData: FormData = new FormData();
+
+  uploadDocument(event: any) {
+    for (let file of event.files) {
+      console.log(file)
+      this.uploadedFiles.push(file.name);
+      this.otherRequestFormData.append('File', file, file.name);
+    }
+  }
+
   RequestSubmit() {
     this.otherRequestForm.markAllAsTouched();
     if(this.otherRequestForm.invalid){
       return;
     }
     const otherRequestData: OtherRequestDTO = this.otherRequestForm.value;
+
+    this.otherRequestFormData.append("YFirstName", this.otherRequestForm.get("YFirstName")?.value);
+    this.otherRequestFormData.append("YLastName", this.otherRequestForm.get("YLastName")?.value);
+    this.otherRequestFormData.append("YEmail", this.otherRequestForm.get("YEmail")?.value);
+    this.otherRequestFormData.append("YMobile", this.otherRequestForm.get("YMobile")?.value);
+    this.otherRequestFormData.append("RelationName", this.otherRequestForm.get("RelationName")?.value);
+    
+    this.otherRequestFormData.append("Symptoms", this.otherRequestForm.get("Symptoms")?.value);
+    this.otherRequestFormData.append("FirstName", this.otherRequestForm.get("FirstName")?.value);
+    this.otherRequestFormData.append("LastName", this.otherRequestForm.get("LastName")?.value);
+    this.otherRequestFormData.append("Bdate", formatDate(this.otherRequestForm.get("Bdate")?.value, 'yyyy-MM-ddTHH:mm:ss', 'en-US'));
+    this.otherRequestFormData.append("Email", this.otherRequestForm.get("Email")?.value);
+    this.otherRequestFormData.append("Mobile", this.otherRequestForm.get("Mobile")?.value);
+    this.otherRequestFormData.append("Street", this.otherRequestForm.get("Street")?.value);
+    this.otherRequestFormData.append("City", this.otherRequestForm.get("City")?.value);
+    this.otherRequestFormData.append("Zipcode", this.otherRequestForm.get("Zipcode")?.value);
+    this.otherRequestFormData.append("regionId", this.otherRequestForm.get("regionId")?.value);
+    this.otherRequestFormData.append("Room", this.otherRequestForm.get("Room")?.value);
+
     console.log(otherRequestData);
 
-    this.patientBackendCallService.otherRequset(otherRequestData).subscribe((res:any)=>{
+    this.patientBackendCallService.otherRequset(this.otherRequestFormData).subscribe((res:any)=>{
       if (!res.isSuccess) {
         if (res.httpStatusCode == 400) {
           this.messageService.add({ severity: 'error', detail: res.error.toString(), life: 3000 });
@@ -124,7 +157,6 @@ export class OtherRequestComponent {
       }
     })
     console.log(this.otherRequestForm.valid);
-    this.router.navigateByUrl("");
   }
   
 }

@@ -79,7 +79,7 @@ export class PatientDashboardComponent {
 
   getViewDocument(requestId:number){
     console.log(requestId)
-    this.router.navigateByUrl(`patient/viewdocument?requestId=${requestId}`)
+    this.router.navigateByUrl(`patient/viewdocument/${requestId}`)
   }
 
   submitRequest(){

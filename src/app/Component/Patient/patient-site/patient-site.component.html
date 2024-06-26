@@ -8,8 +8,10 @@
     <div class="row">
         <div class="col d-flex justify-content-center">
             <div class=" d-flex flex-column" style="width: 400px; margin-top: 100px;">
-                <p-button label="Submit A Request" severity="info" routerLink="/submitrequest" />
+                <p-button label="Submit A Request" severity="info" routerLink="/submitrequest" #submitRequestTRV/>
                 <p-button label="Registered Patients" class="mt-3" severity="primary" routerLink="/patient/login" />
+                <input type="text" [(ngModel)]="textValue"/>
+                <p-button label="Sample Task" class="mt-3" severity="primary" (onClick)="serviceBtn()" />
             </div>
         </div>
     </div>
